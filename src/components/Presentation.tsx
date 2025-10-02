@@ -6,13 +6,13 @@ const CELL_IMAGES = [
   "https://zezenta.shop/placeholders/SHARE/clinicaphone.webp",
   "https://zezenta.shop/placeholders/SHARE/abogadosphone.webp",
   "https://zezenta.shop/placeholders/SHARE/hotelphone.webp",
-  "https://zezenta.shop/placeholders/SHARE/automotrizphone.webp"
+  "https://zezenta.shop/placeholders/SHARE/automotrizphone.webp",
 ];
 const LAPTOP_IMAGES = [
   "https://zezenta.shop/placeholders/SHARE/clinicalaptop.webp",
   "https://zezenta.shop/placeholders/SHARE/abogadoslaptop.webp",
   "https://zezenta.shop/placeholders/SHARE/hotellaptop.webp",
-  "https://zezenta.shop/placeholders/SHARE/automotrizlaptop.webp"
+  "https://zezenta.shop/placeholders/SHARE/automotrizlaptop.webp",
 ];
 
 export default function Presentation() {
@@ -24,10 +24,10 @@ export default function Presentation() {
 
   const [cellIndex, setCellIndex] = useState(0);
   const [laptopIndex, setLaptopIndex] = useState(0);
-  const cellImgRef = useRef<SVGImageElement | null>(null);
-  const laptopImgRef = useRef<SVGImageElement | null>(null);
+  const cellImgRef = useRef<SVGImageElement>(null);
+  const laptopImgRef = useRef<SVGImageElement>(null);
 
-  const preloadImgs = useMemo(() => {
+  useMemo(() => {
     const cell = CELL_IMAGES.map((src) => {
       const i = new Image();
       i.src = src;
@@ -49,7 +49,6 @@ export default function Presentation() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // animar salida
       const el = wordRef.current;
       if (!el) return;
 
@@ -73,10 +72,9 @@ export default function Presentation() {
     return () => clearInterval(interval);
   }, [wordIndex]);
 
-  // Slide anim para imágenes de SVG
   useEffect(() => {
     const slideImg = (
-      ref: React.RefObject<SVGImageElement>,
+      ref: React.RefObject<SVGImageElement | null>,
       nextIdx: number,
       arr: string[]
     ) => {
@@ -89,7 +87,6 @@ export default function Presentation() {
 
       setTimeout(() => {
         const nextSrc = arr[nextIdx];
-        // Intentar setAttribute para href y xlink:href para compatibilidad
         el.setAttribute("href", nextSrc);
         el.setAttributeNS(
           "http://www.w3.org/1999/xlink",
@@ -127,12 +124,12 @@ export default function Presentation() {
   }, [cellIndex, laptopIndex]);
 
   const brush = (
-    <span className="TextShape-node">
+    <span className="absolute top-[10px] left-[-10px] w-[140%] max-w-[300px] h-[59px]">
       <svg viewBox="0 0 300 60" width="100%" height="100%">
         <path
-          // key fuerza re-montaje para que la animación CSS se reproduzca
           key={wordIndex}
           id="brush-stroke"
+          className="fill-none stroke-purpleCC stroke-[10px] animate-draw"
           d="M 0,56.43 c 31.625,-1.5675000000000026 63.25,-4.845000000000006 126.5,-6.269999999999996 c 63.25,-1.4249999999999972 96.14000000000001,7.105427357601002e-15 126.5,0.5700000000000003 c 6.072000000000003,0.11399999999999721 -4.807000000000016,1.6244999999999976 -5.060000000000002,1.7100000000000009"
         ></path>
       </svg>
@@ -140,25 +137,27 @@ export default function Presentation() {
   );
 
   return (
-    <section className="presentation section" id="presentation">
-      <div className="presentation__text">
-        <h2 id="presentationtext">
+    <section
+      className="py-[100px] px-0 flex flex-col justify-evenly items-center text-center bg-cover bg-fixed text-white min-h-[70vh] [background:linear-gradient(to_bottom,rgba(0,0,0,0.5)_50%,rgba(0,0,0,0.1)_70%,rgba(0,0,0,0.1)_90%,rgba(0,0,0,0.8)_110%),url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)_no-repeat_center_center] [background-attachment:scroll] lg:h-[95vh] lg:flex-row lg:justify-around lg:text-left lg:[background:linear-gradient(to_right,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0)_70%,rgba(0,0,0,0)_90%,rgba(0,0,0,0.8)_110%),url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)_no-repeat_center_center] lg:bg-fixed"
+      id="presentation"
+    >
+      <div className="flex flex-col justify-center items-center gap-5 max-w-full overflow-hidden lg:items-start">
+        <h2 className="text-5xl m-0 w-full font-bold">
           {isMobile ? (
             <>
-              Hacemos un{" "}
-              <span style={{ display: "block" }}>
-                sitio web{" "}
-                <span style={{ display: "block" }}>
-                  para tu{" "}
-                  <span style={{ display: "block" }}>
-                    <span style={{ display: "block" }}>
-                      <span className="presentation__text__container">
-                        <span id="dynamic-word" ref={wordRef}>
-                          {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
-                        </span>
-                        {brush}
-                      </span>
+              Hacemos un <span className="block">sitio web </span>
+              <span className="block">
+                para tu{" "}
+                <span className="block">
+                  <span className="relative inline-block">
+                    <span
+                      id="dynamic-word"
+                      ref={wordRef}
+                      className="inline-block transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
+                    >
+                      {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
                     </span>
+                    {brush}
                   </span>
                 </span>
               </span>
@@ -166,10 +165,14 @@ export default function Presentation() {
           ) : (
             <>
               Hacemos un sitio web{" "}
-              <span style={{ display: "block" }}>
+              <span className="block">
                 para tu{" "}
-                <span className="presentation__text__container">
-                  <span id="dynamic-word" ref={wordRef}>
+                <span className="relative inline-block">
+                  <span
+                    id="dynamic-word"
+                    ref={wordRef}
+                    className="inline-block transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
+                  >
                     {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
                   </span>
                   {brush}
@@ -178,13 +181,13 @@ export default function Presentation() {
             </>
           )}
         </h2>
-        <p id="presentation__small__text">
+        <p className="max-w-[400px] text-xl px-2">
           Somos un par de estudiantes de informática que se dedican a hacer
           sitios webs para pequeños y medianos negocios, a los mejores precios
         </p>
       </div>
 
-      <div className="presentation__icon-container">
+      <div className="mt-5 max-w-full overflow-hidden lg:flex lg:justify-between lg:w-1/2">
         <svg
           id="presentation__cellphoneSVG"
           fill="#000000"
@@ -192,6 +195,7 @@ export default function Presentation() {
           height="200px"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
+          className="lg:flex-1 lg:max-w-[40%] lg:h-auto"
         >
           <g id="cellphone-images">
             <image
@@ -203,6 +207,7 @@ export default function Presentation() {
               y="3"
               width="19.8"
               height="18"
+              className="transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
             />
           </g>
           <path
@@ -220,6 +225,7 @@ export default function Presentation() {
           height="200px"
           viewBox="0 0 512.000000 512.000000"
           preserveAspectRatio="xMidYMid meet"
+          className="lg:flex-1 lg:max-w-[60%] lg:h-auto"
         >
           <g id="laptop-images">
             <image
@@ -231,6 +237,7 @@ export default function Presentation() {
               y="50"
               width="375"
               height="375"
+              className="transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
             />
           </g>
           <g
