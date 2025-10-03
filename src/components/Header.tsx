@@ -13,10 +13,8 @@ const NAV_ITEMS = [
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState("presentation");
-  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const activeIdRef = useRef(activeId);
   const menuRef = useRef<HTMLUListElement | null>(null);
-  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
     activeIdRef.current = activeId;
@@ -87,15 +85,40 @@ export default function Header() {
   }, [sectionIds]);
 
   useEffect(() => {
-    const activeIndex = NAV_ITEMS.findIndex((n) => n.id === activeId);
-    const activeRef = linkRefs.current[activeIndex];
-    if (activeRef) {
-      setUnderlineStyle({
-        left: activeRef.offsetLeft,
-        width: activeRef.clientWidth,
-      });
-    }
-  }, [activeId]);
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY + 80; // Offset for header height
+      let newActiveId = "presentation";
+
+      for (let i = 0; i < sections.length; i++) {
+        const currentSection = sections[i];
+        const nextSection = sections[i + 1];
+
+        if (nextSection) {
+          if (scrollY >= currentSection.offsetTop && scrollY < nextSection.offsetTop) {
+            newActiveId = currentSection.id;
+            break;
+          }
+        } else if (scrollY >= currentSection.offsetTop) {
+          newActiveId = currentSection.id;
+        }
+      }
+
+      if (newActiveId !== activeIdRef.current) {
+        setActiveId(newActiveId);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial call
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [sectionIds]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -149,17 +172,16 @@ export default function Header() {
             menuOpen
               ? "flex"
               : "hidden"
-          } lg:flex list-none fixed lg:static top-16 lg:top-0 left-0 w-full lg:w-auto h-screen lg:h-auto bg-white/5 lg:bg-transparent backdrop-blur-xl border-b lg:border-b-0 border-white/10 lg:border-none flex-col lg:flex-row gap-6 lg:gap-8 pt-8 lg:pt-0 px-6 lg:px-0 items-center lg:items-center transition-all duration-500 ease-in-out z-50 lg:z-auto relative`}
+          } lg:flex list-none fixed lg:static top-16 lg:top-0 left-0 w-full lg:w-auto h-screen lg:h-auto bg-white/5 lg:bg-transparent backdrop-blur-xl border-b lg:border-b-0 border-white/10 lg:border-none flex-col lg:flex-row gap-6 lg:gap-8 pt-8 lg:pt-0 px-6 lg:px-0 items-center lg:items-center transition-all duration-500 ease-in-out z-50 lg:z-auto`}
         >
-          {NAV_ITEMS.map((n, i) => (
+          {NAV_ITEMS.map((n) => (
             <li key={n.id} className="w-full lg:w-auto">
               <a
-                ref={(el) => { linkRefs.current[i] = el; }}
                 href={`#${n.id}`}
                 data-section={n.id}
                 className={`nav-link block text-white/90 lg:text-grayModern-200 no-underline py-3 px-4 rounded-modern transition-all duration-200 ease-out font-semibold hover:text-white hover:bg-white/5 lg:hover:bg-transparent lg:hover:translate-y-[-2px] relative overflow-hidden group ${
                   activeId === n.id
-                    ? "nav-link-active text-white bg-gradient-to-r from-purpleCC-500/20 to-coffeeCC-500/20 backdrop-blur-sm bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 bg-clip-text text-transparent shadow-[0_0_10px_rgba(131,10,187,0.3)] border-l-4 border-purpleCC-500/50 ml-[-4px] pl-4"
+                    ? "nav-link-active text-white underline underline-offset-4 decoration-2 bg-gradient-to-r from-purpleCC-500/20 to-coffeeCC-500/20 backdrop-blur-sm bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 bg-clip-text text-transparent shadow-[0_0_10px_rgba(131,10,187,0.3)] border-l-4 border-purpleCC-500/50 ml-[-4px] pl-4"
                     : ""
                 }`}
                 onClick={(e) => {
@@ -172,13 +194,6 @@ export default function Header() {
               </a>
             </li>
           ))}
-          <div
-            className="hidden lg:block absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 transition-all duration-300 ease-out rounded"
-            style={{
-              left: `${underlineStyle.left}px`,
-              width: `${underlineStyle.width}px`,
-            }}
-          />
         </ul>
       </nav>
       {menuOpen && (

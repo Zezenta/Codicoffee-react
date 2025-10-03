@@ -20,6 +20,7 @@ export default function Presentation() {
     () => window.innerWidth < 768
   );
   const [wordIndex, setWordIndex] = useState(0);
+  const [showUnderline, setShowUnderline] = useState(true);
   const wordRef = useRef<HTMLSpanElement | null>(null);
 
   const [cellIndex, setCellIndex] = useState(0);
@@ -56,6 +57,7 @@ export default function Presentation() {
       el.style.transform = "translateY(-10px) scale(0.95)";
       el.style.opacity = "0";
       el.style.filter = "blur(4px)";
+      setShowUnderline(false);
 
       setTimeout(() => {
         const next = (wordIndex + 1) % WORDS.length;
@@ -70,6 +72,7 @@ export default function Presentation() {
           el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
           el.style.transform = "translateY(0) scale(1)";
           el.style.filter = "none";
+          setShowUnderline(true);
         }, 50);
       }, 600);
     }, 4000);
@@ -131,20 +134,6 @@ export default function Presentation() {
     };
   }, [cellIndex, laptopIndex]);
 
-  const brush = (
-    <span className="absolute top-2 left-1/2 -translate-x-1/2 w-[120%] max-w-[180px] h-[50px] animate-pulse-glow">
-      <svg viewBox="0 0 300 60" width="100%" height="100%" className="filter drop-shadow-[0_0_20px_rgba(131,10,187,0.3)]">
-        <path
-          key={wordIndex}
-          id="brush-stroke"
-          className="fill-none stroke-[#830abb] stroke-[5px] animate-draw"
-          d="M 20,56.43 c 31.625,-1.5675000000000026 63.25,-4.845000000000006 126.5,-6.269999999999996 c 63.25,-1.4249999999999972 96.14000000000001,7.105427357601002e-15 126.5,0.5700000000000003 c 6.072000000000003,0.11399999999999721 -4.807000000000016,1.6244999999999976 -5.060000000000002,1.7100000000000009"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </span>
-  );
 
   return (
     <section
@@ -172,7 +161,9 @@ export default function Presentation() {
               >
                 {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
               </span>
-              {brush}
+              <span
+                className={`absolute bottom-0 left-0 right-0 h-1 bg-purpleCC-500 transform origin-left transition-transform duration-700 ease-out ${showUnderline ? 'scale-x-100' : 'scale-x-0'}`}
+              />
             </span>
           </>
         </h2>
