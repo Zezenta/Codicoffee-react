@@ -53,20 +53,20 @@ export default function Prices() {
       {/* Benefits list */}
       <div className="relative z-10 max-w-4xl mx-auto mb-16 px-4">
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-          <li className="price-card bg-gradient-to-br from-purpleCC-50/80 to-coffeeCC-50/80 rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-purpleCC-200/20">
+          <li className="price-card bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-white/20">
             <div className="text-2xl mb-3">💰</div>
-            <p className="text-grayModern-700 font-semibold mb-2">Sin tarifas fijas</p>
-            <p className="text-grayModern-600 text-sm">Solo pagas por lo que realmente necesitas.</p>
+            <p className="text-grayModern-200 font-semibold mb-2">Sin tarifas fijas</p>
+            <p className="text-grayModern-300 text-sm">Solo pagas por lo que realmente necesitas.</p>
           </li>
-          <li className="price-card bg-gradient-to-br from-purpleCC-50/80 to-coffeeCC-50/80 rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-purpleCC-200/20" style={{ animationDelay: "0.2s" }}>
+          <li className="price-card bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-white/20" style={{ animationDelay: "0.2s" }}>
             <div className="text-2xl mb-3">📄</div>
-            <p className="text-grayModern-700 font-semibold mb-2">Sin límite de páginas</p>
-            <p className="text-grayModern-600 text-sm">No te cobramos por cantidad, sino por funcionalidad y calidad.</p>
+            <p className="text-grayModern-200 font-semibold mb-2">Sin límite de páginas</p>
+            <p className="text-grayModern-300 text-sm">No te cobramos por cantidad, sino por funcionalidad y calidad.</p>
           </li>
-          <li className="price-card bg-gradient-to-br from-purpleCC-50/80 to-coffeeCC-50/80 rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-purpleCC-200/20" style={{ animationDelay: "0.4s" }}>
+          <li className="price-card bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-white/20" style={{ animationDelay: "0.4s" }}>
             <div className="text-2xl mb-3">🚀</div>
-            <p className="text-grayModern-700 font-semibold mb-2">Desde solo $100</p>
-            <p className="text-grayModern-600 text-sm">La mejor opción al mejor precio del mercado.</p>
+            <p className="text-grayModern-200 font-semibold mb-2">Desde solo $100</p>
+            <p className="text-grayModern-300 text-sm">La mejor opción al mejor precio del mercado.</p>
           </li>
         </ul>
       </div>

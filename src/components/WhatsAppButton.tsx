@@ -1,22 +1,15 @@
 // src/components/WhatsAppButton.tsx
-import { useEffect, useState } from "react";
+import React from "react";
 
-export default function WhatsappButton() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+export default function WhatsappButton({ positionClass = "fixed bottom-6 right-6", style }: { positionClass?: string; style?: React.CSSProperties }) {
 
   return (
     <a
       href="https://wa.me/593999405155"
-      className={`fixed bottom-6 right-6 z-[1000] flex items-center gap-3 px-6 py-4 rounded-full text-white font-semibold text-base lg:text-lg shadow-glow-purple transition-all duration-500 ease-out backdrop-blur-xl border border-white/20 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-      } animate-bounce-gentle hover:-translate-y-2 hover:scale-105 hover:shadow-card-hover`}
+      className={`${positionClass} z-[1000] flex items-center gap-3 px-6 py-4 rounded-full text-white font-semibold text-base lg:text-lg shadow-glow-purple backdrop-blur-xl border border-white/20`}
       style={{
         background: 'linear-gradient(135deg, var(--purpleCC-500) 0%, var(--coffeeCC-500) 100%)',
+        ...style
       }}
       target="_blank"
       rel="noopener noreferrer"
@@ -34,9 +27,9 @@ export default function WhatsappButton() {
           />
         </svg>
         {/* Glow effect */}
-        <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 opacity-30 blur-xl animate-pulse rounded-full" />
+        <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 opacity-30 blur-xl rounded-full" />
       </div>
-      <span className="relative z-10 hidden sm:inline animate-pulse-glow">Contáctanos</span>
+      <span className="relative z-10 hidden sm:inline">Contáctanos</span>
     </a>
   );
 }

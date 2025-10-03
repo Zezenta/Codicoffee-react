@@ -2,7 +2,6 @@
 import Header from "./components/Header";
 import Presentation from "./components/Presentation";
 import Services from "./components/Services";
-import Portfolio from "./components/Portfolio";
 import Prices from "./components/Prices";
 import About from "./components/About";
 import Questions from "./components/Questions";
@@ -16,7 +15,7 @@ export default function App() {
       <main>
         <Presentation />
         <Services />
-        <Portfolio />
+        {/* <Portfolio /> */  }
         <Prices />
         <About />
         <Questions />

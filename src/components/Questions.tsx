@@ -85,7 +85,7 @@ export default function Questions() {
 
   return (
     <section
-      className="relative min-h-screen py-20 px-4 lg:px-8 bg-gradient-to-br from-purpleCC-900 via-blackCC to-coffeeCC-900 text-white flex flex-col justify-center items-center overflow-hidden"
+      className="relative min-h-screen pt-10 pb-20 px-4 lg:px-8 bg-gradient-to-br from-purpleCC-900 via-blackCC to-coffeeCC-900 text-white flex flex-col justify-center items-center overflow-hidden"
       id="questions"
     >
       {/* Background elements */}
@@ -110,7 +110,7 @@ export default function Questions() {
             ref={(el) => {
               detailsRefs.current[idx] = el;
             }}
-            className="faq-item bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl overflow-hidden shadow-card-modern hover:shadow-glow-purple transition-all duration-500 ease-out hover:-translate-y-1 opacity-0 translate-y-4 cursor-pointer group"
+            className="faq-item bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl overflow-hidden shadow-card-modern hover:shadow-glow-purple transition-all duration-500 ease-out hover:-translate-y-px opacity-0 translate-y-4 cursor-pointer group"
             onClick={handleToggle}
           >
             <summary className="faq-summary list-none p-6 relative flex items-center justify-between font-bold text-white transition-all duration-300 ease-in-out hover:bg-white/20">

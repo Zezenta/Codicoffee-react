@@ -37,9 +37,6 @@ export default function About() {
                 const h3 = member.querySelector("h3");
                 h3?.classList.add("underline-active");
 
-                const role = member.querySelector(".about__role");
-                role?.classList.add("visible");
-
                 const lis = member.querySelectorAll<HTMLLIElement>("ul li");
                 lis.forEach((li, liIdx) => {
                   setTimeout(() => {
@@ -109,21 +106,21 @@ export default function About() {
             </h3>
 
             {/* Role */}
-            <p className="about__role text-purpleCC-300 text-center font-semibold mb-6 relative z-10 opacity-0">
-              {member.role}
-            </p>
 
             {/* Details list */}
             <ul className="space-y-3 relative z-10 flex-1 flex flex-col justify-center">
-              <li className="about__member-li flex items-center opacity-0 transform translate-y-20 transition-all duration-500">
-                <span className="w-2 h-2 bg-purpleCC-400 rounded-full mr-3 flex-shrink-0"></span>
-                <span className="text-grayModern-200 text-base">{member.achievements}</span>
+              <li className="about__member-li flex justify-center opacity-0 transform translate-y-20 transition-all duration-500" style={{ transitionDelay: "0s" }}>
+                <span className="text-purpleCC-300 font-semibold">{member.role}</span>
               </li>
               <li className="about__member-li flex items-center opacity-0 transform translate-y-20 transition-all duration-500" style={{ transitionDelay: "0.1s" }}>
-                <span className="w-2 h-2 bg-coffeeCC-400 rounded-full mr-3 flex-shrink-0"></span>
-                <span className="text-grayModern-200 text-base">{member.education}</span>
+                <span className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></span>
+                <span className="text-grayModern-200 text-base">{member.achievements}</span>
               </li>
               <li className="about__member-li flex items-center opacity-0 transform translate-y-20 transition-all duration-500" style={{ transitionDelay: "0.2s" }}>
+                <span className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></span>
+                <span className="text-grayModern-200 text-base">{member.education}</span>
+              </li>
+              <li className="about__member-li flex items-center opacity-0 transform translate-y-20 transition-all duration-500" style={{ transitionDelay: "0.3s" }}>
                 <span className="w-2 h-2 bg-white rounded-full mr-3 flex-shrink-0"></span>
                 <span className="text-grayModern-200 text-base">Contacto: <a href={`mailto:${member.contact}`} className="underline hover:text-purpleCC-300 transition-colors">{member.contact}</a></span>
               </li>

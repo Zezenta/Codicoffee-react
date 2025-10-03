@@ -53,6 +53,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 }
 
 body::-webkit-scrollbar {
@@ -60,19 +62,11 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background: var(--gray-modern-800);
-  border-radius: 10px;
+  background: transparent;
 }
 
 body::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, var(--purple-cc-500), var(--coffee-cc-500));
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, var(--purple-cc-600), var(--coffee-cc-600));
-  transform: scale(1.1);
+  background-color: transparent;
 }
 
 main {
