@@ -108,6 +108,18 @@ section {
     box-shadow: var(--glow-purple);
   }
 
+  .nav-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(131, 10, 187, 0.2), 0 0 20px rgba(131, 10, 187, 0.3);
+    background: rgba(131, 10, 187, 0.08);
+    @apply rounded-modern;
+  }
+
+  .nav-link:focus-visible::after {
+    transform: scaleX(1) skew(-15deg);
+    background: linear-gradient(to right, var(--purple-cc-500), var(--coffee-cc-500));
+  }
+
   .nav-link-active::after {
     transform: scaleX(1) skew(-15deg);
   }

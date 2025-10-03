@@ -55,7 +55,7 @@ export default function Presentation() {
       el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
       el.style.transform = "translateY(-10px) scale(0.95)";
       el.style.opacity = "0";
-      el.style.filter = "blur(6px)";
+      el.style.filter = "blur(4px)";
 
       setTimeout(() => {
         const next = (wordIndex + 1) % WORDS.length;
@@ -63,13 +63,13 @@ export default function Presentation() {
         el.textContent = next === 0 ? "Negocio" : WORDS[next];
         el.style.transition = "none";
         el.style.transform = "translateY(10px) scale(1.05)";
-        el.style.filter = "blur(12px)";
+        el.style.opacity = "1";
+        el.style.filter = "none";
 
         setTimeout(() => {
           el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
           el.style.transform = "translateY(0) scale(1)";
-          el.style.opacity = "1";
-          el.style.filter = "blur(0px)";
+          el.style.filter = "none";
         }, 50);
       }, 600);
     }, 4000);
@@ -102,7 +102,7 @@ export default function Presentation() {
         el.style.transition = "none";
         el.style.transform = "scale(1.05) rotateY(10deg)";
         el.style.opacity = "0";
-        el.style.filter = "blur(18px)";
+        el.style.filter = "blur(0px)";
 
         setTimeout(() => {
           el.style.transition = "all 0.7s cubic-bezier(0.4, 0, 0.2, 1)";
@@ -132,13 +132,13 @@ export default function Presentation() {
   }, [cellIndex, laptopIndex]);
 
   const brush = (
-    <span className="absolute -top-2 -left-2 w-[120%] max-w-[280px] h-[60px] animate-pulse-glow">
+    <span className="absolute top-2 left-1/2 -translate-x-1/2 w-[120%] max-w-[180px] h-[50px] animate-pulse-glow">
       <svg viewBox="0 0 300 60" width="100%" height="100%" className="filter drop-shadow-[0_0_20px_rgba(131,10,187,0.3)]">
         <path
           key={wordIndex}
           id="brush-stroke"
-          className="fill-none stroke-[#830abb] stroke-[8px] animate-draw"
-          d="M 0,56.43 c 31.625,-1.5675000000000026 63.25,-4.845000000000006 126.5,-6.269999999999996 c 63.25,-1.4249999999999972 96.14000000000001,7.105427357601002e-15 126.5,0.5700000000000003 c 6.072000000000003,0.11399999999999721 -4.807000000000016,1.6244999999999976 -5.060000000000002,1.7100000000000009"
+          className="fill-none stroke-[#830abb] stroke-[5px] animate-draw"
+          d="M 20,56.43 c 31.625,-1.5675000000000026 63.25,-4.845000000000006 126.5,-6.269999999999996 c 63.25,-1.4249999999999972 96.14000000000001,7.105427357601002e-15 126.5,0.5700000000000003 c 6.072000000000003,0.11399999999999721 -4.807000000000016,1.6244999999999976 -5.060000000000002,1.7100000000000009"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -161,44 +161,20 @@ export default function Presentation() {
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-purpleCC-900/40 to-coffeeCC-700/60" />
       
       <div className="relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left max-w-4xl mx-auto space-y-6 lg:space-y-8 w-full">
-        <h2 className="text-4xl lg:text-6xl xl:text-7xl font-bold leading-tight bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent drop-shadow-2xl">
-          {isMobile ? (
-            <>
-              Hacemos un <span className="block lg:inline">sitio web </span>
-              <span className="block lg:inline">
-                para tu{" "}
-                <span className="relative inline-block min-w-[900px]">
-                  <span
-                    id="dynamic-word"
-                    ref={wordRef}
-                    className="inline-block transition-all duration-700 ease-out opacity-100 relative whitespace-nowrap font-extrabold"
-                    style={{ textShadow: "0 0 20px rgba(255,255,255,0.5)" }}
-                  >
-                    {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
-                  </span>
-                  {brush}
-                </span>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold leading-tight bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent drop-shadow-2xl overflow-hidden">
+          <>Hacemos un sitio<br />web para tu<br />{" "}
+            <span className="relative block lg:inline-block min-w-[120px] my-0 lg:my-0">
+              <span
+                id="dynamic-word"
+                ref={wordRef}
+                className="inline-block transition-all duration-700 ease-out opacity-100 relative whitespace-nowrap font-extrabold bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent"
+                style={{}}
+              >
+                {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
               </span>
-            </>
-          ) : (
-            <>
-              Hacemos un sitio web{" "}
-              <span className="block lg:inline">
-                para tu{" "}
-                <span className="relative inline-block min-w-[900px]">
-                  <span
-                    id="dynamic-word"
-                    ref={wordRef}
-                    className="inline-block transition-all duration-700 ease-out opacity-100 relative whitespace-nowrap font-extrabold"
-                    style={{ textShadow: "0 0 20px rgba(255,255,255,0.5)" }}
-                  >
-                    {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
-                  </span>
-                  {brush}
-                </span>
-              </span>
-            </>
-          )}
+              {brush}
+            </span>
+          </>
         </h2>
         <p className="text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed opacity-90 font-light backdrop-blur-sm bg-white/5 rounded-modern px-6 py-4 border border-white/10">
           Somos un par de estudiantes de informática que se dedican a hacer

@@ -13,8 +13,10 @@ const NAV_ITEMS = [
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeId, setActiveId] = useState("presentation");
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const activeIdRef = useRef(activeId);
   const menuRef = useRef<HTMLUListElement | null>(null);
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   useEffect(() => {
     activeIdRef.current = activeId;
@@ -73,7 +75,7 @@ export default function Header() {
       {
         root: null,
         rootMargin: "-80px 0px 0px 0px",
-        threshold: [0, 0.25, 0.5, 0.75, 1.0],
+        threshold: [0, 0.5, 1.0],
       }
     );
 
@@ -83,6 +85,17 @@ export default function Header() {
       sections.forEach((section) => observer.unobserve(section));
     };
   }, [sectionIds]);
+
+  useEffect(() => {
+    const activeIndex = NAV_ITEMS.findIndex((n) => n.id === activeId);
+    const activeRef = linkRefs.current[activeIndex];
+    if (activeRef) {
+      setUnderlineStyle({
+        left: activeRef.offsetLeft,
+        width: activeRef.clientWidth,
+      });
+    }
+  }, [activeId]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -136,16 +149,17 @@ export default function Header() {
             menuOpen
               ? "flex"
               : "hidden"
-          } lg:flex list-none fixed lg:static top-16 lg:top-0 left-0 w-full lg:w-auto h-screen lg:h-auto bg-white/5 lg:bg-transparent backdrop-blur-xl border-b lg:border-b-0 border-white/10 lg:border-none flex-col lg:flex-row gap-6 lg:gap-8 pt-8 lg:pt-0 px-6 lg:px-0 items-center lg:items-center transition-all duration-500 ease-in-out z-50 lg:z-auto`}
+          } lg:flex list-none fixed lg:static top-16 lg:top-0 left-0 w-full lg:w-auto h-screen lg:h-auto bg-white/5 lg:bg-transparent backdrop-blur-xl border-b lg:border-b-0 border-white/10 lg:border-none flex-col lg:flex-row gap-6 lg:gap-8 pt-8 lg:pt-0 px-6 lg:px-0 items-center lg:items-center transition-all duration-500 ease-in-out z-50 lg:z-auto relative`}
         >
-          {NAV_ITEMS.map((n) => (
+          {NAV_ITEMS.map((n, i) => (
             <li key={n.id} className="w-full lg:w-auto">
               <a
+                ref={(el) => { linkRefs.current[i] = el; }}
                 href={`#${n.id}`}
                 data-section={n.id}
-                className={`nav-link block text-white/90 lg:text-grayModern-200 no-underline py-3 px-4 rounded-modern transition-all duration-300 ease-in-out font-semibold hover:text-white hover:bg-white/5 lg:hover:bg-transparent lg:hover:translate-y-[-2px] relative overflow-hidden group ${
+                className={`nav-link block text-white/90 lg:text-grayModern-200 no-underline py-3 px-4 rounded-modern transition-all duration-200 ease-out font-semibold hover:text-white hover:bg-white/5 lg:hover:bg-transparent lg:hover:translate-y-[-2px] relative overflow-hidden group ${
                   activeId === n.id
-                    ? "text-white bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 bg-clip-text text-transparent shadow-glow-purple"
+                    ? "nav-link-active text-white bg-gradient-to-r from-purpleCC-500/20 to-coffeeCC-500/20 backdrop-blur-sm bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 bg-clip-text text-transparent shadow-[0_0_10px_rgba(131,10,187,0.3)] border-l-4 border-purpleCC-500/50 ml-[-4px] pl-4"
                     : ""
                 }`}
                 onClick={(e) => {
@@ -154,10 +168,17 @@ export default function Header() {
                 }}
               >
                 <span className="relative z-10">{n.label}</span>
-                <span className="absolute inset-0 bg-gradient-to-r from-purpleCC-500/10 to-coffeeCC-500/10 rounded-modern scale-0 group-hover:scale-100 transition-transform duration-300 origin-center"></span>
+                <span className={`absolute inset-0 bg-gradient-to-r from-purpleCC-500/10 to-coffeeCC-500/10 rounded-modern scale-0 group-hover:scale-100 ${activeId === n.id ? 'scale-100' : ''} transition-transform duration-300 origin-center`}></span>
               </a>
             </li>
           ))}
+          <div
+            className="hidden lg:block absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 transition-all duration-300 ease-out rounded"
+            style={{
+              left: `${underlineStyle.left}px`,
+              width: `${underlineStyle.width}px`,
+            }}
+          />
         </ul>
       </nav>
       {menuOpen && (
