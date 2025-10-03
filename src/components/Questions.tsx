@@ -41,12 +41,12 @@ export default function Questions() {
         entries.forEach((entry, idx) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              entry.target.classList.add("visible");
-            }, idx * 300);
+              entry.target.classList.add("opacity-100", "translate-y-0");
+            }, idx * 200);
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.1 }
     );
 
     detailsRefs.current.forEach((i) => i && obs.observe(i));
@@ -56,60 +56,85 @@ export default function Questions() {
   const handleToggle = (e: React.MouseEvent<HTMLDetailsElement>) => {
     e.preventDefault();
     const details = e.currentTarget;
-    const content = details.querySelector("p");
-    const triangle = details.querySelector(".triangle");
+    const content = details.querySelector(".faq-content") as HTMLElement;
+    const summary = details.querySelector(".faq-summary") as HTMLElement;
+    const icon = details.querySelector(".faq-icon") as HTMLElement;
 
-    if (!content || !triangle) return;
+    if (!content || !summary || !icon) return;
 
-    if (details.hasAttribute("open")) {
+    if (details.open) {
       content.style.height = `${content.scrollHeight}px`;
+      content.style.opacity = "1";
       setTimeout(() => {
         content.style.height = "0";
         content.style.opacity = "0";
-        content.style.marginBottom = "0";
+        icon.classList.remove("rotate-180");
       }, 10);
-      triangle.classList.remove("rotate-45");
-      setTimeout(() => details.removeAttribute("open"), 300);
+      setTimeout(() => details.open = false, 300);
     } else {
-      details.setAttribute("open", "true");
+      details.open = true;
       content.style.height = "0";
-      triangle.classList.add("rotate-45");
+      content.style.opacity = "0";
+      icon.classList.add("rotate-180");
       setTimeout(() => {
         content.style.height = `${content.scrollHeight}px`;
         content.style.opacity = "1";
-        content.style.marginBottom = "15px";
       }, 10);
     }
   };
 
   return (
     <section
-      className="[background:linear-gradient(0deg,rgba(131,10,187,1)_0%,rgba(75,25,99,1)_30%,rgba(34,35,36,1)_80%)] p-10 min-h-[90vh] flex flex-col justify-center items-center lg:min-h-0"
+      className="relative min-h-screen py-20 px-4 lg:px-8 bg-gradient-to-br from-purpleCC-900 via-blackCC to-coffeeCC-900 text-white flex flex-col justify-center items-center overflow-hidden"
       id="questions"
     >
-      <h2 className="text-[clamp(2rem,5vw,2.5rem)] text-center text-whiteCC mb-8 font-bold">
-        Preguntas Frecuentes
-      </h2>
-      <div className="flex flex-col gap-4 w-full max-w-[1100px]">
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purpleCC-500/10 via-transparent to-coffeeCC-500/10" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500" />
+
+      {/* Header */}
+      <div className="relative z-10 text-center mb-16">
+        <h2 className="text-3xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-purpleCC-200 to-coffeeCC-200 bg-clip-text text-transparent drop-shadow-2xl animate-fade-in">
+          Preguntas Frecuentes
+        </h2>
+        <p className="text-grayModern-300 max-w-2xl mx-auto text-lg opacity-0 animate-slide-up" style={{ animationDelay: "0.2s" }}>
+          Encuentra respuestas rápidas a las dudas más comunes sobre nuestros servicios.
+        </p>
+      </div>
+
+      {/* FAQ Accordion */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto space-y-4 px-4">
         {QandA.map((item, idx) => (
           <details
             key={idx}
             ref={(el) => {
               detailsRefs.current[idx] = el;
             }}
-            className="questions__item bg-whiteCC rounded-md cursor-pointer opacity-0 translate-y-5 hover:bg-[#d5d5d5]"
+            className="faq-item bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl overflow-hidden shadow-card-modern hover:shadow-glow-purple transition-all duration-500 ease-out hover:-translate-y-1 opacity-0 translate-y-4 cursor-pointer group"
             onClick={handleToggle}
           >
-            <summary className="font-bold transition-all duration-300 ease-in-out select-none list-none p-2">
-              <span className="triangle inline-block w-2.5 h-2.5 border-solid border-black border-r-2 border-b-2 transform -rotate-45 transition-transform duration-300 ease-in-out mr-2.5"></span>
-              {item.q}
+            <summary className="faq-summary list-none p-6 relative flex items-center justify-between font-bold text-white transition-all duration-300 ease-in-out hover:bg-white/20">
+              <span className="faq-question text-lg lg:text-xl relative z-10">
+                {item.q}
+              </span>
+              <span className="faq-icon transition-transform duration-300 ml-4 flex-shrink-0">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
             </summary>
-            <p className="m-0 overflow-hidden opacity-0 transition-all duration-300 ease-in-out select-none px-2 pb-2">
-              {item.a}
-            </p>
+            <div className="faq-content overflow-hidden transition-all duration-300 ease-in-out">
+              <p className="faq-answer m-0 p-6 pt-0 text-grayModern-300 text-base leading-relaxed border-t border-white/20 bg-white/5 relative z-10">
+                {item.a}
+              </p>
+            </div>
           </details>
         ))}
       </div>
+
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-10 w-32 h-32 bg-purpleCC-500/10 rounded-full blur-xl animate-pulse" />
+      <div className="absolute bottom-20 left-10 w-48 h-48 bg-coffeeCC-500/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: "1s" }} />
     </section>
   );
 }

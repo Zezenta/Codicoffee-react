@@ -73,7 +73,7 @@ export default function Header() {
       {
         root: null,
         rootMargin: "-80px 0px 0px 0px",
-        threshold: [0, 0.25, 0.5, 0.75, 1.0], // Simplified threshold array
+        threshold: [0, 0.25, 0.5, 0.75, 1.0],
       }
     );
 
@@ -94,21 +94,23 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed w-full top-0 z-[1000] backdrop-blur-sm bg-[#4e216199] py-2">
-      <nav className="flex justify-between items-center px-5 text-[#b4adad] sticky">
-        <div className="flex items-center lg:ml-[30px]">
+    <header className="fixed w-full top-0 z-[1000] backdrop-blur-md bg-white/5 border-b border-white/10 py-3 px-4 lg:px-8 shadow-lg shadow-purpleCC-500/10">
+      <nav className="flex justify-between items-center max-w-7xl mx-auto">
+        <div className="flex items-center space-x-3">
           <img
             src="https://zezenta.shop/placeholders/SHARE/logo-codicoffee-transparente.webp"
             alt="logo"
-            className="w-[60px] h-[60px] rounded-full object-cover object-center"
+            className="w-12 h-12 rounded-full object-cover object-center transition-transform duration-300 hover:scale-110"
             loading="lazy"
           />
-          <h1 className="text-2xl font-bold text-white">Codicoffee</h1>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-purpleCC-600 to-coffeeCC-500 bg-clip-text text-transparent">
+            Codicoffee
+          </h1>
         </div>
 
         <button
           ref={btnRef}
-          className="lg:hidden bg-none border-none text-2xl text-white/60 cursor-pointer"
+          className="lg:hidden p-2 rounded-full backdrop-blur-md bg-white/5 border border-white/10 text-white transition-all duration-300 hover:bg-white/10 hover:scale-105"
           id="menuToggle"
           onClick={(e) => {
             e.stopPropagation();
@@ -117,34 +119,50 @@ export default function Header() {
           aria-label="Abrir menú"
           aria-expanded={menuOpen}
         >
-          ☰
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
         </button>
 
         <ul
           ref={menuRef}
-          className={`list-none fixed top-0 h-screen w-[250px] bg-[rgba(78,33,97,0.9)] flex flex-col gap-5 pt-[50px] transition-all duration-300 ease-in-out pl-5 ${
-            menuOpen ? "right-0" : "right-[-100%]"
-          } lg:static lg:h-auto lg:w-auto lg:flex-row lg:bg-transparent lg:pt-0 lg:mr-[30px]`}
+          className={`${
+            menuOpen
+              ? "flex"
+              : "hidden"
+          } lg:flex list-none fixed lg:static top-16 lg:top-0 left-0 w-full lg:w-auto h-screen lg:h-auto bg-white/5 lg:bg-transparent backdrop-blur-xl border-b lg:border-b-0 border-white/10 lg:border-none flex-col lg:flex-row gap-6 lg:gap-8 pt-8 lg:pt-0 px-6 lg:px-0 items-center lg:items-center transition-all duration-500 ease-in-out z-50 lg:z-auto`}
         >
           {NAV_ITEMS.map((n) => (
-            <li key={n.id}>
+            <li key={n.id} className="w-full lg:w-auto">
               <a
                 href={`#${n.id}`}
                 data-section={n.id}
-                className={`nav-link text-white/60 no-underline p-[5px] transition-all duration-300 ease-in-out hover:text-white font-bold ${
-                  activeId === n.id ? "nav-link-active" : ""
+                className={`nav-link block text-white/90 lg:text-grayModern-200 no-underline py-3 px-4 rounded-modern transition-all duration-300 ease-in-out font-semibold hover:text-white hover:bg-white/5 lg:hover:bg-transparent lg:hover:translate-y-[-2px] relative overflow-hidden group ${
+                  activeId === n.id
+                    ? "text-white bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 bg-clip-text text-transparent shadow-glow-purple"
+                    : ""
                 }`}
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToSection(n.id);
                 }}
               >
-                {n.label}
+                <span className="relative z-10">{n.label}</span>
+                <span className="absolute inset-0 bg-gradient-to-r from-purpleCC-500/10 to-coffeeCC-500/10 rounded-modern scale-0 group-hover:scale-100 transition-transform duration-300 origin-center"></span>
               </a>
             </li>
           ))}
         </ul>
       </nav>
+      {menuOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm lg:hidden z-40" onClick={() => setMenuOpen(false)} />
+      )}
     </header>
   );
 }

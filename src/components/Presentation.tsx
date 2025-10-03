@@ -52,23 +52,27 @@ export default function Presentation() {
       const el = wordRef.current;
       if (!el) return;
 
-      el.style.transition = "transform 0.5s ease-in-out, opacity 0.5s";
-      el.style.transform = "translateX(-50%)";
+      el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+      el.style.transform = "translateY(-10px) scale(0.95)";
       el.style.opacity = "0";
+      el.style.filter = "blur(6px)";
 
       setTimeout(() => {
         const next = (wordIndex + 1) % WORDS.length;
         setWordIndex(next);
+        el.textContent = next === 0 ? "Negocio" : WORDS[next];
         el.style.transition = "none";
-        el.style.transform = "translateX(50%)";
+        el.style.transform = "translateY(10px) scale(1.05)";
+        el.style.filter = "blur(12px)";
 
         setTimeout(() => {
-          el.style.transition = "transform 0.5s ease-in-out, opacity 0.5s";
-          el.style.transform = "translateX(0)";
+          el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+          el.style.transform = "translateY(0) scale(1)";
           el.style.opacity = "1";
+          el.style.filter = "blur(0px)";
         }, 50);
-      }, 500);
-    }, 3000);
+      }, 600);
+    }, 4000);
     return () => clearInterval(interval);
   }, [wordIndex]);
 
@@ -81,9 +85,10 @@ export default function Presentation() {
       const el = ref.current;
       if (!el) return;
 
-      el.style.transition = "transform 0.5s ease-in-out, opacity 0.5s";
-      el.style.transform = "translateX(-50%)";
+      el.style.transition = "all 0.7s cubic-bezier(0.4, 0, 0.2, 1)";
+      el.style.transform = "scale(0.95) rotateY(-10deg)";
       el.style.opacity = "0";
+      el.style.filter = "blur(10px)";
 
       setTimeout(() => {
         const nextSrc = arr[nextIdx];
@@ -95,27 +100,30 @@ export default function Presentation() {
         );
 
         el.style.transition = "none";
-        el.style.transform = "translateX(50%)";
+        el.style.transform = "scale(1.05) rotateY(10deg)";
+        el.style.opacity = "0";
+        el.style.filter = "blur(18px)";
 
         setTimeout(() => {
-          el.style.transition = "transform 0.5s ease-in-out, opacity 0.5s";
-          el.style.transform = "translateX(0)";
+          el.style.transition = "all 0.7s cubic-bezier(0.4, 0, 0.2, 1)";
+          el.style.transform = "scale(1) rotateY(0deg)";
           el.style.opacity = "1";
+          el.style.filter = "blur(0px)";
         }, 50);
-      }, 500);
+      }, 700);
     };
 
     const cellInterval = setInterval(() => {
       const next = (cellIndex + 1) % CELL_IMAGES.length;
       slideImg(cellImgRef, next, CELL_IMAGES);
       setCellIndex(next);
-    }, 3000);
+    }, 4000);
 
     const laptopInterval = setInterval(() => {
       const next = (laptopIndex + 1) % LAPTOP_IMAGES.length;
       slideImg(laptopImgRef, next, LAPTOP_IMAGES);
       setLaptopIndex(next);
-    }, 3000);
+    }, 4000);
 
     return () => {
       clearInterval(cellInterval);
@@ -124,54 +132,65 @@ export default function Presentation() {
   }, [cellIndex, laptopIndex]);
 
   const brush = (
-    <span className="absolute top-[10px] left-[-10px] w-[140%] max-w-[300px] h-[59px]">
-      <svg viewBox="0 0 300 60" width="100%" height="100%">
+    <span className="absolute -top-2 -left-2 w-[120%] max-w-[280px] h-[60px] animate-pulse-glow">
+      <svg viewBox="0 0 300 60" width="100%" height="100%" className="filter drop-shadow-[0_0_20px_rgba(131,10,187,0.3)]">
         <path
           key={wordIndex}
           id="brush-stroke"
-          className="fill-none stroke-purpleCC stroke-[10px] animate-draw"
+          className="fill-none stroke-[#830abb] stroke-[8px] animate-draw"
           d="M 0,56.43 c 31.625,-1.5675000000000026 63.25,-4.845000000000006 126.5,-6.269999999999996 c 63.25,-1.4249999999999972 96.14000000000001,7.105427357601002e-15 126.5,0.5700000000000003 c 6.072000000000003,0.11399999999999721 -4.807000000000016,1.6244999999999976 -5.060000000000002,1.7100000000000009"
-        ></path>
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </span>
   );
 
   return (
     <section
-      className="py-[100px] px-0 flex flex-col justify-evenly items-center text-center bg-cover bg-fixed text-white min-h-[70vh] [background:linear-gradient(to_bottom,rgba(0,0,0,0.5)_50%,rgba(0,0,0,0.1)_70%,rgba(0,0,0,0.1)_90%,rgba(0,0,0,0.8)_110%),url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)_no-repeat_center_center] [background-attachment:scroll] lg:h-[95vh] lg:flex-row lg:justify-around lg:text-left lg:[background:linear-gradient(to_right,rgba(0,0,0,0.8)_30%,rgba(0,0,0,0)_70%,rgba(0,0,0,0)_90%,rgba(0,0,0,0.8)_110%),url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)_no-repeat_center_center] lg:bg-fixed"
+      className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 lg:px-8 py-20 overflow-hidden bg-gradient-to-br from-grayModern-900 via-purpleCC-900 to-coffeeCC-900 text-white animate-fade-in"
       id="presentation"
+      style={{
+        backgroundImage: "url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
     >
-      <div className="flex flex-col justify-center items-center gap-5 max-w-full overflow-hidden lg:items-start">
-        <h2 className="text-5xl m-0 w-full font-bold">
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-purpleCC-900/40 to-coffeeCC-700/60" />
+      
+      <div className="relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left max-w-4xl mx-auto space-y-6 lg:space-y-8 w-full">
+        <h2 className="text-4xl lg:text-6xl xl:text-7xl font-bold leading-tight bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent drop-shadow-2xl">
           {isMobile ? (
             <>
-              Hacemos un <span className="block">sitio web </span>
-              <span className="block">
+              Hacemos un <span className="block lg:inline">sitio web </span>
+              <span className="block lg:inline">
                 para tu{" "}
-                <span className="block">
-                  <span className="relative inline-block">
-                    <span
-                      id="dynamic-word"
-                      ref={wordRef}
-                      className="inline-block transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
-                    >
-                      {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
-                    </span>
-                    {brush}
+                <span className="relative inline-block min-w-[900px]">
+                  <span
+                    id="dynamic-word"
+                    ref={wordRef}
+                    className="inline-block transition-all duration-700 ease-out opacity-100 relative whitespace-nowrap font-extrabold"
+                    style={{ textShadow: "0 0 20px rgba(255,255,255,0.5)" }}
+                  >
+                    {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
                   </span>
+                  {brush}
                 </span>
               </span>
             </>
           ) : (
             <>
               Hacemos un sitio web{" "}
-              <span className="block">
+              <span className="block lg:inline">
                 para tu{" "}
-                <span className="relative inline-block">
+                <span className="relative inline-block min-w-[900px]">
                   <span
                     id="dynamic-word"
                     ref={wordRef}
-                    className="inline-block transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
+                    className="inline-block transition-all duration-700 ease-out opacity-100 relative whitespace-nowrap font-extrabold"
+                    style={{ textShadow: "0 0 20px rgba(255,255,255,0.5)" }}
                   >
                     {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
                   </span>
@@ -181,79 +200,93 @@ export default function Presentation() {
             </>
           )}
         </h2>
-        <p className="max-w-[400px] text-xl px-2">
+        <p className="text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed opacity-90 font-light backdrop-blur-sm bg-white/5 rounded-modern px-6 py-4 border border-white/10">
           Somos un par de estudiantes de informática que se dedican a hacer
           sitios webs para pequeños y medianos negocios, a los mejores precios
         </p>
       </div>
 
-      <div className="mt-5 max-w-full overflow-hidden lg:flex lg:justify-between lg:w-1/2">
-        <svg
-          id="presentation__cellphoneSVG"
-          fill="#000000"
-          width="140px"
-          height="200px"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          className="lg:flex-1 lg:max-w-[40%] lg:h-auto"
-        >
-          <g id="cellphone-images">
-            <image
-              id="current-cellphone-image"
-              ref={cellImgRef}
-              href={CELL_IMAGES[0]}
-              xlinkHref={CELL_IMAGES[0]}
-              x="2.15"
-              y="3"
-              width="19.8"
-              height="18"
-              className="transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
-            />
-          </g>
-          <path
-            d="M6,4.5 C6,3.11928813 7.11928813,2 8.5,2 L15.5113578,2 C16.8920696,2 18.0113578,3.11928813 18.0113578,4.5 L18.0113578,19.5 C18.0113578,20.8807119 16.8920696,22 15.5113578,22 L8.5,22 C7.11928813,22 6,20.8807119 6,19.5 L6,4.5 Z M8.5,3 C7.67157288,3 7,3.67157288 7,4.5 L7,19.5 C7,20.3284271 7.67157288,21 8.5,21 L15.5113578,21 C16.3397849,21 17.0113578,20.3284271 17.0113578,19.5 L17.0113578,4.5 C17.0113578,3.67157288 16.3397849,3 15.5113578,3 Z"
-            stroke="black"
-            strokeWidth="0.25"
-          />
-        </svg>
-
-        <svg
-          id="presentation__laptopSVG"
-          xmlns="http://www.w3.org/2000/svg"
-          version="1.0"
-          width="200px"
-          height="200px"
-          viewBox="0 0 512.000000 512.000000"
-          preserveAspectRatio="xMidYMid meet"
-          className="lg:flex-1 lg:max-w-[60%] lg:h-auto"
-        >
-          <g id="laptop-images">
-            <image
-              id="current-laptop-image"
-              ref={laptopImgRef}
-              href={LAPTOP_IMAGES[0]}
-              xlinkHref={LAPTOP_IMAGES[0]}
-              x="70"
-              y="50"
-              width="375"
-              height="375"
-              className="transition-transform duration-500 ease-in-out opacity-100 relative whitespace-nowrap"
-            />
-          </g>
-          <g
-            transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-12 mt-12 lg:mt-0 w-full lg:w-auto max-w-4xl mx-auto">
+        {/* Phone */}
+        <div className="relative flex justify-center animate-slide-up">
+          <svg
+            id="presentation__cellphoneSVG"
             fill="#000000"
-            stroke="none"
+            width="160px"
+            height="280px"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            className="drop-shadow-2xl hover:drop-shadow-[0_0_20px_rgba(131,10,187,0.3)] transition-all duration-500 hover:scale-105"
           >
+            <g id="cellphone-images">
+              <image
+                id="current-cellphone-image"
+                ref={cellImgRef}
+                href={CELL_IMAGES[0]}
+                xlinkHref={CELL_IMAGES[0]}
+                x="2.15"
+                y="3"
+                width="19.8"
+                height="18"
+                className="transition-all duration-700 ease-out rounded-modern"
+                style={{ filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))" }}
+              />
+            </g>
             <path
-              d="M659 3966 c-74 -51 -70 37 -67 -1230 3 -1127 3 -1135 24 -1163 11 -15 40 -38 64 -50 l44 -23 1836 0 1836 0 44 22 c24 13 53 36 64 51 21 28 21 36 24 1163 3 1267 7 1179 -67 1230 l-36 24 -1865 0 -1865 0 -36 -24z m1935 -22 c19 -18 21 -7 34 -16z m1737 -153 l29 -29 0 -1010 0 -1010 -26 -31 -26 -31 -1748 0 -1748 0 -26 31 -26 31 0 1010 0 1010 29 29 29 29 1742 0 1742 0 29 -29z"
+              d="M6,4.5 C6,3.11928813 7.11928813,2 8.5,2 L15.5113578,2 C16.8920696,2 18.0113578,3.11928813 18.0113578,4.5 L18.0113578,19.5 C18.0113578,20.8807119 16.8920696,22 15.5113578,22 L8.5,22 C7.11928813,22 6,20.8807119 6,19.5 L6,4.5 Z M8.5,3 C7.67157288,3 7,3.67157288 7,4.5 L7,19.5 C7,20.3284271 7.67157288,21 8.5,21 L15.5113578,21 C16.3397849,21 17.0113578,20.3284271 17.0113578,19.5 L17.0113578,4.5 C17.0113578,3.67157288 16.3397849,3 15.5113578,3 Z"
+              stroke="black"
+              strokeWidth="0.25"
+              fill="none"
+              className="drop-shadow-lg"
             />
-            <path
-              d="M292 1393 c-86 -42 -102 -161 -32 -228 l31 -30 2269 0 2269 0 31 30 c71 68 54 187 -33 229 -32 14 -106 16 -746 16 -692 0 -711 -1 -700 -19 7 -10 9 -26 6 -35 -6 -15 -77 -16 -827 -16 -750 0 -821 1 -827 16 -3 9 -1 25 6 35 11 18 -8 19 -701 19 -641 0 -716 -2 -746 -17z"
-            />
-          </g>
-        </svg>
+          </svg>
+        </div>
+
+        {/* Laptop */}
+        <div className="relative flex justify-center animate-slide-up" style={{ animationDelay: "0.3s" }}>
+          <svg
+            id="presentation__laptopSVG"
+            xmlns="http://www.w3.org/2000/svg"
+            version="1.0"
+            width="280px"
+            height="200px"
+            viewBox="0 0 512.000000 512.000000"
+            preserveAspectRatio="xMidYMid meet"
+            className="drop-shadow-2xl hover:drop-shadow-[0_0_20px_rgba(131,10,187,0.3)] transition-all duration-500 hover:scale-105"
+          >
+            <g id="laptop-images">
+              <image
+                id="current-laptop-image"
+                ref={laptopImgRef}
+                href={LAPTOP_IMAGES[0]}
+                xlinkHref={LAPTOP_IMAGES[0]}
+                x="70"
+                y="50"
+                width="375"
+                height="375"
+                className="transition-all duration-700 ease-out rounded-modern"
+                style={{ filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))" }}
+              />
+            </g>
+            <g
+              transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+              fill="#000000"
+              stroke="none"
+            >
+              <path
+                d="M659 3966 c-74 -51 -70 37 -67 -1230 3 -1127 3 -1135 24 -1163 11 -15 40 -38 64 -50 l44 -23 1836 0 1836 0 44 22 c24 13 53 36 64 51 21 28 21 36 24 1163 3 1267 7 1179 -67 1230 l-36 24 -1865 0 -1865 0 -36 -24z m1935 -22 c19 -18 21 -7 34 -16z m1737 -153 l29 -29 0 -1010 0 -1010 -26 -31 -26 -31 -1748 0 -1748 0 -26 31 -26 31 0 1010 0 1010 29 29 29 29 1742 0 1742 0 29 -29z"
+              />
+              <path
+                d="M292 1393 c-86 -42 -102 -161 -32 -228 l31 -30 2269 0 2269 0 31 30 c71 68 54 187 -33 229 -32 14 -106 16 -746 16 -692 0 -711 -1 -700 -19 7 -10 9 -26 6 -35 -6 -15 -77 -16 -827 -16 -750 0 -821 1 -827 16 -3 9 -1 25 6 35 11 18 -8 19 -701 19 -641 0 -716 -2 -746 -17z"
+              />
+            </g>
+          </svg>
+        </div>
       </div>
+
+      {/* Decorative elements */}
+      <div className="absolute top-10 left-10 w-32 h-32 bg-[#830abb]/10 rounded-full blur-xl animate-pulse" />
+      <div className="absolute bottom-10 right-10 w-48 h-48 bg-[#8B4513]/10 rounded-full blur-xl animate-pulse" style={{ animationDelay: "2s" }} />
     </section>
   );
 }
