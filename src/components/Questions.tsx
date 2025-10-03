@@ -124,7 +124,7 @@ export default function Questions() {
               </span>
             </summary>
             <div className="faq-content overflow-hidden transition-all duration-300 ease-in-out">
-              <p className="faq-answer m-0 p-6 pt-0 text-grayModern-300 text-base leading-relaxed border-t border-white/20 bg-white/5 relative z-10">
+              <p className="faq-answer m-0 p-6 text-grayModern-300 text-base leading-relaxed border-t border-white/20 bg-white/5 relative z-10">
                 {item.a}
               </p>
             </div>
