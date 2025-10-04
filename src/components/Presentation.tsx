@@ -54,7 +54,16 @@ export default function Presentation() {
       const scrollY = window.scrollY;
       layers.forEach((layer, i) => {
         const speed = parseFloat(layer.dataset.speed || "0");
-        positions[i].target = scrollY * speed;
+        let targetPosition = scrollY * speed;
+
+        // Clamp the background image's parallax to prevent gaps on fast scrolls.
+        // The background image is the first layer (i === 0).
+        if (i === 0) {
+          const maxMovement = 150; // Max pixels the background can move
+          targetPosition = Math.min(targetPosition, maxMovement);
+        }
+
+        positions[i].target = targetPosition;
       });
     };
 
