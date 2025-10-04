@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 const NAV_ITEMS = [
   { id: "presentation", label: "Inicio" },
   { id: "services", label: "Servicios" },
-  { id: "portfolio", label: "Portafolio" },
   { id: "precios", label: "Precios" },
   { id: "about", label: "Sobre Nosotros" },
   { id: "questions", label: "Preguntas Frecuentes" },

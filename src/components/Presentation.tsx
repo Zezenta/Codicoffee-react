@@ -8,78 +8,97 @@ export default function Presentation() {
   const [showUnderline, setShowUnderline] = useState(true);
   const wordRef = useRef<HTMLSpanElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
-  const backgroundRef = useRef<HTMLDivElement>(null);
 
-useEffect(() => {
-  let rafId: number;
-  const handleScroll = () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(() => {
-      const scrollY = window.scrollY;
-      if (backgroundRef.current) {
-        backgroundRef.current.style.transform = `translateY(${scrollY * 0.2}px)`;
-      }
-    });
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const el = wordRef.current;
+      if (!el) return;
 
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  return () => {
-    window.removeEventListener("scroll", handleScroll);
-    if (rafId) cancelAnimationFrame(rafId);
-  };
-}, []);
-
-useEffect(() => {
-  const interval = setInterval(() => {
-    const el = wordRef.current;
-    if (!el) return;
-
-    el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
-    el.style.transform = "translateY(-10px) scale(0.95)";
-    el.style.opacity = "0";
-    el.style.filter = "blur(4px)";
-    setShowUnderline(false);
-
-    setTimeout(() => {
-      const next = (wordIndex + 1) % WORDS.length;
-      setWordIndex(next);
-      el.textContent = next === 0 ? "Negocio" : WORDS[next];
-      el.style.transition = "none";
-      el.style.transform = "translateY(10px) scale(1.05)";
-      el.style.opacity = "1";
-      el.style.filter = "none";
+      el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+      el.style.transform = "translateY(-10px) scale(0.95)";
+      el.style.opacity = "0";
+      el.style.filter = "blur(4px)";
+      setShowUnderline(false);
 
       setTimeout(() => {
-        el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
-        el.style.transform = "translateY(0) scale(1)";
+        const next = (wordIndex + 1) % WORDS.length;
+        setWordIndex(next);
+        el.textContent = next === 0 ? "Negocio" : WORDS[next];
+        el.style.transition = "none";
+        el.style.transform = "translateY(10px) scale(1.05)";
+        el.style.opacity = "1";
         el.style.filter = "none";
-        setShowUnderline(true);
-      }, 50);
-    }, 600);
-  }, 4000);
-  return () => clearInterval(interval);
-}, [wordIndex]);
 
-return (
+        setTimeout(() => {
+          el.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
+          el.style.transform = "translateY(0) scale(1)";
+          el.style.filter = "none";
+          setShowUnderline(true);
+        }, 50);
+      }, 600);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [wordIndex]);
+
+  return (
     <section
       ref={sectionRef}
       className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 lg:px-8 py-20 overflow-hidden bg-gradient-to-br from-grayModern-900 via-purpleCC-900 to-coffeeCC-900 text-white animate-fade-in"
       id="presentation"
       style={{
-        backgroundImage: "url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
+        perspective: '2px' // Create the 3D space for parallax
       }}
     >
-      {/* Overlay gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-purpleCC-900/40 to-coffeeCC-700/60" />
-      
+      {/* Parallax Background Container */}
+      <div className="absolute inset-0" style={{ transformStyle: 'preserve-3d' }}>
+        
+        {/* Layer 1: Background Image (farthest) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            // p=2, z=-4 => scale = 1 + 4/2 = 3
+            transform: 'translateZ(-4px) scale(3)',
+          }}
+        />
+
+        {/* Layer 2: Overlay Gradient */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-black/60 via-purpleCC-900/40 to-coffeeCC-700/60"
+          style={{
+            // p=2, z=-3 => scale = 1 + 3/2 = 2.5
+            transform: 'translateZ(-3px) scale(2.5)',
+          }}
+        />
+
+        {/* Layer 3: Icons (various depths) */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div style={{ transform: 'translateZ(-2px) scale(2)' }} className="absolute top-1/4 left-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`<`}</div>
+          <div style={{ transform: 'translateZ(-1.5px) scale(1.75)' }} className="absolute top-1/2 left-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`{`}</div>
+          <div style={{ transform: 'translateZ(-2.5px) scale(2.25)' }} className="absolute bottom-1/4 left-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`>`}</div>
+          <div style={{ transform: 'translateZ(-1px) scale(1.5)' }} className="absolute bottom-1/2 left-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`}`}</div>
+          
+          <div style={{ transform: 'translateZ(-2.2px) scale(2.1)' }} className="absolute top-1/4 right-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`>`}</div>
+          <div style={{ transform: 'translateZ(-1.8px) scale(1.9)' }} className="absolute top-1/2 right-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`}`}</div>
+          <div style={{ transform: 'translateZ(-2.8px) scale(2.4)' }} className="absolute bottom-1/4 right-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`<`}</div>
+          <div style={{ transform: 'translateZ(-1.2px) scale(1.6)' }} className="absolute bottom-1/2 right-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`{`}</div>
+          <div style={{ transform: 'translateZ(-2.6px) scale(2.3)' }} className="absolute top-1/3 right-40 text-4xl font-mono text-purpleCC-200/22 opacity-22">{'()'}</div>
+          <div style={{ transform: 'translateZ(-1.4px) scale(1.7)' }} className="absolute bottom-1/3 left-40 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{'[]'}</div>
+          <div style={{ transform: 'translateZ(-0.5px) scale(1.25)' }} className="absolute bottom-10 right-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`/>`}</div>
+          <div style={{ transform: 'translateZ(-2.4px) scale(2.2)' }} className="absolute bottom-1/4 right-1/3 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{`;`}</div>
+          <div style={{ transform: 'translateZ(-0.8px) scale(1.4)' }} className="absolute bottom-10 left-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`//`}</div>
+          <div style={{ transform: 'translateZ(-1.6px) scale(1.8)' }} className="absolute bottom-1/4 left-1/3 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{`*`}</div>
+        </div>
+      </div>
+
+      {/* Foreground Content (doesn't move with parallax) */}
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full max-w-7xl mx-auto space-y-6 lg:space-y-0 lg:space-x-12 px-4 lg:px-8">
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-4xl space-y-6 lg:space-y-8 w-full lg:w-auto">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold leading-tight bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent drop-shadow-2xl overflow-hidden">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent drop-shadow-2xl overflow-hidden">
             <>Hacemos un sitio<br />web para tu<br />{" "}
-              <span className="relative block lg:inline-block min-w-[120px] my-0 lg:my-0">
+              <span className="relative inline-block">
                 <span
                   id="dynamic-word"
                   ref={wordRef}
@@ -100,31 +119,6 @@ return (
           </p>
         </div>
       </div>
-
-           {/* Subtle background icons filling the entire section with parallax */}
-           <div
-             ref={backgroundRef}
-             className="absolute inset-0 pointer-events-none overflow-hidden"
-             style={{ willChange: 'transform' }}
-           >
-             {/* More subtle code symbols across entire section - balanced */}
-             <div className="absolute top-1/4 left-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`<`}</div>
-             <div className="absolute top-1/2 left-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`{`}</div>
-             <div className="absolute bottom-1/4 left-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`>`}</div>
-             <div className="absolute bottom-1/2 left-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`}`}</div>
-             
-             <div className="absolute top-1/4 right-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`>`}</div>
-             <div className="absolute top-1/2 right-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`}`}</div>
-             <div className="absolute bottom-1/4 right-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`<`}</div>
-             <div className="absolute bottom-1/2 right-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`{`}</div>
-             <div className="absolute top-1/3 right-40 text-4xl font-mono text-purpleCC-200/22 opacity-22">{'()'}</div>
-             <div className="absolute bottom-1/3 left-40 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{'[]'}</div>
-             <div className="absolute bottom-10 right-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`/>`}</div>
-             <div className="absolute bottom-1/4 right-1/3 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{`;`}</div>
-             <div className="absolute bottom-10 left-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`//`}</div>
-             <div className="absolute bottom-1/4 left-1/3 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{`*`}</div>
-           </div>
-
-         </section>
-       );
+    </section>
+  );
 }
