@@ -8,7 +8,9 @@ export default function Presentation() {
   const [showUnderline, setShowUnderline] = useState(true);
   const wordRef = useRef<HTMLSpanElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
 
+  // Word animation effect
   useEffect(() => {
     const interval = setInterval(() => {
       const el = wordRef.current;
@@ -40,60 +42,100 @@ export default function Presentation() {
     return () => clearInterval(interval);
   }, [wordIndex]);
 
+  // Smoothed parallax effect for all devices
+  useEffect(() => {
+    const parallaxContainer = parallaxRef.current;
+    if (!parallaxContainer) return;
+
+    const layers = parallaxContainer.querySelectorAll<HTMLElement>("[data-speed]");
+    const positions = Array.from(layers).map(() => ({ current: 0, target: 0 }));
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      layers.forEach((layer, i) => {
+        const speed = parseFloat(layer.dataset.speed || "0");
+        positions[i].target = scrollY * speed;
+      });
+    };
+
+    let animationFrameId: number;
+    const update = () => {
+      positions.forEach((pos, i) => {
+        const layer = layers[i];
+        const diff = pos.target - pos.current;
+        const delta = diff * 0.07; // Easing factor for smoothness
+
+        pos.current += delta;
+
+        // Apply transform
+        if (layer) {
+          layer.style.transform = `translateY(${pos.current}px)`;
+        }
+      });
+      animationFrameId = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial call
+    animationFrameId = requestAnimationFrame(update);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+
   return (
     <section
       ref={sectionRef}
       className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 lg:px-8 py-20 overflow-hidden bg-gradient-to-br from-grayModern-900 via-purpleCC-900 to-coffeeCC-900 text-white animate-fade-in"
       id="presentation"
-      style={{
-        perspective: '2px' // Create the 3D space for parallax
-      }}
     >
-      {/* Parallax Background Container */}
-      <div className="absolute inset-0" style={{ transformStyle: 'preserve-3d' }}>
-        
-        {/* Layer 1: Background Image (farthest) */}
+      {/* Container for all parallax elements */}
+      <div
+        ref={parallaxRef}
+        className="absolute inset-0"
+      >
+        {/* Background Image Layer */}
         <div
+          data-speed="0.3"
           className="absolute inset-0"
           style={{
             backgroundImage: "url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)",
             backgroundSize: "cover",
             backgroundPosition: "center",
-            // p=2, z=-4 => scale = 1 + 4/2 = 3
-            transform: 'translateZ(-4px) scale(3)',
+            willChange: 'transform',
           }}
         />
 
-        {/* Layer 2: Overlay Gradient */}
-        <div 
-          className="absolute inset-0 bg-gradient-to-r from-black/60 via-purpleCC-900/40 to-coffeeCC-700/60"
-          style={{
-            // p=2, z=-3 => scale = 1 + 3/2 = 2.5
-            transform: 'translateZ(-3px) scale(2.5)',
-          }}
-        />
-
-        {/* Layer 3: Icons (various depths) */}
+        {/* Icons Layer */}
         <div className="absolute inset-0 pointer-events-none">
-          <div style={{ transform: 'translateZ(-2px) scale(2)' }} className="absolute top-1/4 left-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`<`}</div>
-          <div style={{ transform: 'translateZ(-1.5px) scale(1.75)' }} className="absolute top-1/2 left-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`{`}</div>
-          <div style={{ transform: 'translateZ(-2.5px) scale(2.25)' }} className="absolute bottom-1/4 left-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`>`}</div>
-          <div style={{ transform: 'translateZ(-1px) scale(1.5)' }} className="absolute bottom-1/2 left-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`}`}</div>
+          <div data-speed="0.4" style={{ willChange: 'transform' }} className="absolute top-1/4 left-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`<`}</div>
+          <div data-speed="0.5" style={{ willChange: 'transform' }} className="absolute top-1/2 left-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`{`}</div>
+          <div data-speed="0.2" style={{ willChange: 'transform' }} className="absolute bottom-1/4 left-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`>`}</div>
+          <div data-speed="0.6" style={{ willChange: 'transform' }} className="absolute bottom-1/2 left-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`}`}</div>
           
-          <div style={{ transform: 'translateZ(-2.2px) scale(2.1)' }} className="absolute top-1/4 right-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`>`}</div>
-          <div style={{ transform: 'translateZ(-1.8px) scale(1.9)' }} className="absolute top-1/2 right-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`}`}</div>
-          <div style={{ transform: 'translateZ(-2.8px) scale(2.4)' }} className="absolute bottom-1/4 right-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`<`}</div>
-          <div style={{ transform: 'translateZ(-1.2px) scale(1.6)' }} className="absolute bottom-1/2 right-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`{`}</div>
-          <div style={{ transform: 'translateZ(-2.6px) scale(2.3)' }} className="absolute top-1/3 right-40 text-4xl font-mono text-purpleCC-200/22 opacity-22">{'()'}</div>
-          <div style={{ transform: 'translateZ(-1.4px) scale(1.7)' }} className="absolute bottom-1/3 left-40 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{'[]'}</div>
-          <div style={{ transform: 'translateZ(-0.5px) scale(1.25)' }} className="absolute bottom-10 right-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`/>`}</div>
-          <div style={{ transform: 'translateZ(-2.4px) scale(2.2)' }} className="absolute bottom-1/4 right-1/3 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{`;`}</div>
-          <div style={{ transform: 'translateZ(-0.8px) scale(1.4)' }} className="absolute bottom-10 left-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`//`}</div>
-          <div style={{ transform: 'translateZ(-1.6px) scale(1.8)' }} className="absolute bottom-1/4 left-1/3 text-4xl font-mono text-coffeeCC-200/20 opacity-20">{`*`}</div>
+          <div data-speed="0.45" style={{ willChange: 'transform' }} className="absolute top-1/4 right-10 text-5xl font-mono text-purpleCC-200/30 opacity-30">{`>`}</div>
+          <div data-speed="0.55" style={{ willChange: 'transform' }} className="absolute top-1/2 right-16 text-4xl font-mono text-coffeeCC-200/25 opacity-25">{`}`}</div>
+          <div data-speed="0.25" style={{ willChange: 'transform' }} className="absolute bottom-1/4 right-24 text-6xl font-mono text-purpleCC-200/20 opacity-20">{`<`}</div>
+          <div data-speed="0.65" style={{ willChange: 'transform' }} className="absolute bottom-1/2 right-32 text-5xl font-mono text-coffeeCC-200/15 opacity-15">{`{`}</div>
+          
+          {/* Icons hidden on mobile to prevent overlap */}
+          <div data-speed="0.3" style={{ willChange: 'transform' }} className="absolute top-1/3 right-40 text-4xl font-mono text-purpleCC-200/10 opacity-10 hidden lg:block">{'()'}</div>
+          <div data-speed="0.4" style={{ willChange: 'transform' }} className="absolute bottom-1/3 left-40 text-4xl font-mono text-coffeeCC-200/10 opacity-10 hidden lg:block">{'[]'}</div>
+          <div data-speed="0.2" style={{ willChange: 'transform' }} className="absolute bottom-1/4 right-1/3 text-4xl font-mono text-coffeeCC-200/10 opacity-10 hidden lg:block">{`;`}</div>
+          <div data-speed="0.35" style={{ willChange: 'transform' }} className="absolute bottom-1/4 left-1/3 text-4xl font-mono text-coffeeCC-200/10 opacity-10 hidden lg:block">{`*`}</div>
+
+          <div data-speed="0.7" style={{ willChange: 'transform' }} className="absolute bottom-10 right-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`/>`}</div>
+          <div data-speed="0.75" style={{ willChange: 'transform' }} className="absolute bottom-10 left-10 text-5xl font-mono text-purpleCC-200/25 opacity-25">{`//`}</div>
         </div>
       </div>
-
-      {/* Foreground Content (doesn't move with parallax) */}
+      
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-purpleCC-900/40 to-coffeeCC-700/60" />
+      
+      {/* Foreground Content */}
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full max-w-7xl mx-auto space-y-6 lg:space-y-0 lg:space-x-12 px-4 lg:px-8">
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-4xl space-y-6 lg:space-y-8 w-full lg:w-auto">
           <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent drop-shadow-2xl overflow-hidden">
