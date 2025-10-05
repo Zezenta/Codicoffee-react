@@ -3,32 +3,28 @@ import { useEffect, useRef } from "react";
 
 const QandA = [
   {
-    q: "¿Hay algún cobro mensual por mantener activa la web?",
-    a: "Sí. Este precio es de $5 para páginas web normales, cuya función es principalmente informativa. Si la web tiene funciones y sistemas más avanzados y complejos, este precio puede aumentar.",
+    q: "¿Solo hacen páginas web?",
+    a: "No. También construimos sistemas internos ligeros, automatizaciones con WhatsApp y consultorías técnicas para ordenar tus procesos digitales.",
   },
   {
-    q: "¿Los precios incluyen impuestos? ¿Facturan?",
-    a: "Como somos una microempresa informal, no cobramos impuestos de ningún tipo. Todo pago se hace por medio de transferencias bancarias normales.",
+    q: "¿Cuánto tardan?",
+    a: "Landing page: 3–7 días con contenidos listos. Catálogo y automatizaciones: 7–10 días. Sistemas internos dependen del alcance, siempre con un cronograma claro.",
   },
   {
-    q: "¿La web la tengo que diseñar yo o la diseñan ustedes?",
-    a: "¡Como prefieras! Si ya tienes una idea de cómo quieres que se vea tu sitio web, la podemos implementar por ti. Si no quieres preocuparte por esto, nosotros nos encargamos de todo, pidiéndote opiniones durante el diseño. Puedes estar tan involucrado en el diseño como quieras.",
+    q: "¿Hay pago mensual?",
+    a: "El mantenimiento es opcional (desde $15/mes) e incluye hosting, backups y soporte. Automatizaciones pueden requerir servicios de terceros como Meta o Twilio.",
   },
   {
-    q: "¿Cuánto tiempo demoran en construir la web?",
-    a: "Depende de cuánto contenido tengamos que construir. Para una página web promedio, tardamos alrededor de 2 semanas. Este tiempo puede variar dependiendo de la cantidad de trabajo y nuestras responsabilidades personales (¡somos universitarios después de todo!).",
+    q: "¿Necesito diseñar yo la web?",
+    a: "No. Proponemos un diseño en base a tu objetivo y lo ajustamos con tu feedback. Si ya tienes referencias, las usamos como punto de partida.",
   },
   {
-    q: "¿Tengo que pagar por adelantado?",
-    a: "Pedimos la mitad del pago antes del desarrollo y la otra mitad cuando hayamos terminado el trabajo.",
+    q: "¿Puedo llevarme el código?",
+    a: "Sí. Entregamos el código y documentación básica si deseas migrar o auto-gestionar más adelante.",
   },
   {
-    q: "Si quiero cambiar de proveedor o encargarme yo mismo del sitio web, ¿puedo hacerlo?",
-    a: "Sí, si decides cambiar de proveedor o encargarte tú mismo del mantenimiento, te enviaremos todo el código de tu sitio web para que puedas gestionarlo sin problemas.",
-  },
-  {
-    q: "¿Desarrollan versiones tanto para computadora como para celulares?",
-    a: "Sí, todas las webs que hacemos son adaptables tanto para computadoras como para celulares. No hay costo extra por esto.",
+    q: "¿Facturan?",
+    a: "Somos microempresa informal. Emitimos comprobante de transferencia y contrato simple con alcance, anticipo y entregables definidos.",
   },
 ];
 
@@ -110,10 +106,10 @@ export default function Questions() {
             ref={(el) => {
               detailsRefs.current[idx] = el;
             }}
-            className="faq-item bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl overflow-hidden shadow-card-modern hover:shadow-glow-purple transition-all duration-500 ease-out hover:-translate-y-px opacity-0 translate-y-4 cursor-pointer group"
+            className="faq-item bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl overflow-hidden shadow-card-modern lg:hover:shadow-glow-purple transition-all duration-500 ease-out lg:hover:-translate-y-1 opacity-0 translate-y-4 cursor-pointer group"
             onClick={handleToggle}
           >
-            <summary className="faq-summary list-none p-6 relative flex items-center justify-between font-bold text-white transition-all duration-300 ease-in-out hover:bg-white/20">
+            <summary className="faq-summary list-none p-6 relative flex items-center justify-between font-bold text-white transition-all duration-300 ease-in-out lg:hover:bg-white/20">
               <span className="faq-question text-lg lg:text-xl relative z-10">
                 {item.q}
               </span>

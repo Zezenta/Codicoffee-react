@@ -1,9 +1,58 @@
 // src/components/Prices.tsx
 import { useEffect } from "react";
 
+const PLANS = [
+  {
+    id: "landing",
+    name: "Landing Page",
+    price: "$180",
+    monthly: "+ $15/mes mantenimiento opcional",
+    description:
+      "3–4 secciones, WhatsApp, formulario, 1 ronda de cambios y hosting incluido el primer año o deploy en tu servidor.",
+    features: [
+      "Optimización técnica básica SEO",
+      "Integración con Analytics y métricas básicas",
+      "Entrega en 7-10 días con contenidos listos",
+    ],
+  },
+  {
+    id: "catalog",
+    name: "Catálogo / Distribuidores",
+    price: "$240",
+    monthly: "+ $20/mes mantenimiento opcional",
+    description:
+      "Catálogo administrable, fichas de productos y formulario que llega directo a WhatsApp o correo.",
+    features: [
+      "Búsqueda y filtros básicos",
+      "Dashboard con métricas simples",
+      "Capacitación de uso para tu equipo",
+    ],
+  },
+];
+
+const ADD_ONS = [
+  {
+    id: "hero",
+    title: "Hero 3D ligero",
+    price: "+ $60",
+    description: "Animación inicial para destacar tu propuesta de valor sin afectar la velocidad.",
+  },
+  {
+    id: "mail",
+    title: "Correo corporativo",
+    price: "$25 único",
+    description: "Configuración (Zoho/ImprovMX) + DNS para correos tipo ventas@tuempresa.com.",
+  },
+  {
+    id: "automation",
+    title: "Automatizaciones con WhatsApp/Sheets",
+    price: "desde $80 setup",
+    description: "Bots, flujos de respuesta y reportes conectados con tus herramientas actuales.",
+  },
+];
+
 export default function Prices() {
   useEffect(() => {
-    // Add fade-in animation for cards
     const cards = document.querySelectorAll(".price-card");
     const observer = new IntersectionObserver(
       (entries) => {
@@ -11,7 +60,7 @@ export default function Prices() {
           if (entry.isIntersecting) {
             setTimeout(() => {
               entry.target.classList.add("opacity-100", "translate-y-0");
-            }, index * 200);
+            }, index * 150);
           }
         });
       },
@@ -43,100 +92,83 @@ export default function Prices() {
 
       <div className="relative z-10 max-w-6xl mx-auto text-center mb-16">
         <h2 className="text-3xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-purpleCC-600 to-coffeeCC-500 bg-clip-text text-transparent animate-fade-in">
-          Precios
+          Precios claros y sin sorpresas
         </h2>
-        <p className="text-grayModern-600 max-w-3xl mx-auto text-lg leading-relaxed opacity-0 animate-slide-up" style={{ animationDelay: "0.2s" }}>
-          Gracias a nuestra estructura flexible y a que somos un equipo de estudiantes apasionados por el desarrollo web, podemos ofrecer los mejores precios del país.
+        <p
+          className="text-grayModern-600 max-w-3xl mx-auto text-lg leading-relaxed opacity-0 animate-slide-up"
+          style={{ animationDelay: "0.2s" }}
+        >
+          Trabajamos con precios cerrados, anticipo del 50% y balance al entregar. Soporte local, deploy controlado y acompañamiento post lanzamiento.
         </p>
       </div>
 
-      {/* Benefits list */}
-      <div className="relative z-10 max-w-4xl mx-auto mb-16 px-4">
-        <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-          <li className="price-card bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-white/20">
-            <div className="text-2xl mb-3">💰</div>
-            <p className="text-grayModern-200 font-semibold mb-2">Sin tarifas fijas</p>
-            <p className="text-grayModern-300 text-sm">Solo pagas por lo que realmente necesitas.</p>
-          </li>
-          <li className="price-card bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-white/20" style={{ animationDelay: "0.2s" }}>
-            <div className="text-2xl mb-3">📄</div>
-            <p className="text-grayModern-200 font-semibold mb-2">Sin límite de páginas</p>
-            <p className="text-grayModern-300 text-sm">No te cobramos por cantidad, sino por funcionalidad y calidad.</p>
-          </li>
-          <li className="price-card bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-xl p-6 shadow-card-modern hover:shadow-card-hover transition-all duration-300 opacity-0 transform translate-y-4 border border-white/20" style={{ animationDelay: "0.4s" }}>
-            <div className="text-2xl mb-3">🚀</div>
-            <p className="text-grayModern-200 font-semibold mb-2">Desde solo $100</p>
-            <p className="text-grayModern-300 text-sm">La mejor opción al mejor precio del mercado.</p>
-          </li>
-        </ul>
-      </div>
-
-      {/* Comparison cards */}
       <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 mb-16">
-        {/* Others card */}
-        <article className="price-card relative bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-2xl p-8 lg:p-10 shadow-card-modern hover:shadow-card-hover transition-all duration-500 ease-out hover:-translate-y-2 overflow-hidden opacity-0 transform translate-y-4">
-          <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="relative z-10 text-center">
-            <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
-              Otros Proveedores
-            </h3>
-            <ul className="space-y-3 mb-8 text-left text-sm">
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
-                Precios inflados
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
-                Costo extra por funciones innecesarias
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
-                Tarifas fijas exageradas
-              </li>
-            </ul>
-            <div className="text-4xl lg:text-5xl font-bold text-red-400 mb-2">$200 - $800</div>
-            <p className="text-red-300 text-xs opacity-80">Precios promedio del mercado</p>
-          </div>
-        </article>
+        {PLANS.map((plan, index) => (
+          <article
+            key={plan.id}
+            className="price-card relative bg-gradient-to-br from-grayModern-800 to-grayModern-900 text-white rounded-2xl p-8 lg:p-10 shadow-card-modern hover:shadow-card-hover transition-all duration-500 ease-out hover:-translate-y-2 overflow-hidden opacity-0 translate-y-4 border border-white/20"
+            style={{ animationDelay: `${index * 0.15}s` }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-purpleCC-500/10 to-coffeeCC-500/10 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative z-10">
+              <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent">
+                {plan.name}
+              </h3>
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 mb-4">
+                <span className="text-4xl font-extrabold text-white">{plan.price}</span>
+                <span className="text-sm font-medium text-purpleCC-200 bg-white/5 border border-white/10 rounded-full px-4 py-1">
+                  {plan.monthly}
+                </span>
+              </div>
+              <p className="text-grayModern-300 text-sm lg:text-base leading-relaxed mb-6">
+                {plan.description}
+              </p>
+              <ul className="space-y-3 text-sm lg:text-base text-grayModern-200">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-purpleCC-400 rounded-full mt-2" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
 
-        {/* Our card */}
-        <article className="price-card relative bg-gradient-to-br from-purpleCC-500 to-coffeeCC-500 text-white rounded-2xl p-8 lg:p-10 shadow-glow-purple hover:shadow-card-hover transition-all duration-500 ease-out hover:-translate-y-2 overflow-hidden opacity-0 transform translate-y-4" style={{ animationDelay: "0.2s" }}>
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <div className="relative z-10 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 mb-16">
+        <article
+          className="price-card relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 lg:p-10 shadow-card-modern hover:shadow-glow-purple transition-all duration-500 ease-out hover:-translate-y-2 overflow-hidden opacity-0 translate-y-4"
+          style={{ animationDelay: "0.3s" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-purpleCC-500/5 to-coffeeCC-500/5 opacity-0 hover:opacity-100 transition-opacity duration-500" />
+          <div className="relative z-10">
             <h3 className="text-2xl font-bold mb-6 bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent">
-              Nosotros
+              Add-ons para potenciar tu proyecto
             </h3>
-            <ul className="space-y-3 mb-8 text-left text-sm">
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                Pagas por lo que necesitas, ni un dólar más
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                Ética de trabajo transparente
-              </li>
-              <li className="flex items-center">
-                <span className="w-2 h-2 bg-white rounded-full mr-3"></span>
-                Planes flexibles
-              </li>
-            </ul>
-            <div className="text-5xl lg:text-6xl font-bold mb-2">$100</div>
-            <p className="text-white/80 text-xs opacity-80">Webs profesionales desde</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {ADD_ONS.map((item) => (
+                <div key={item.id} className="bg-white/5 border border-white/10 rounded-xl p-5 flex flex-col gap-2">
+                  <span className="text-sm font-semibold text-purpleCC-200">{item.price}</span>
+                  <h4 className="text-lg font-semibold text-white">{item.title}</h4>
+                  <p className="text-sm text-grayModern-200 leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </article>
       </div>
 
-      {/* Final CTA */}
-      <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
+      <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
         <p className="text-lg lg:text-xl font-semibold mb-8 leading-relaxed opacity-0 animate-slide-up" style={{ animationDelay: "0.4s" }}>
-          Si buscas una página web bien hecha, sin pagar de más, somos tu mejor alternativa. ¡Contáctanos y cotiza gratis!
+          Nota: 50% anticipo, 50% al entregar. Tiempos de 7–10 días con contenidos listos y soporte continuo vía WhatsApp.
         </p>
         <button
-          className="price-card relative inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 text-white font-bold text-lg shadow-glow-purple hover:shadow-card-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 opacity-0 animate-slide-up"
+          className="price-card relative inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 text-white font-bold text-lg shadow-glow-purple hover:shadow-card-hover transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 opacity-0 animate-slide-up"
           style={{ animationDelay: "0.6s" }}
           onClick={scrollToQuestions}
         >
-          <span className="mr-2">Aprende más sobre los precios</span>
+          <span>Preguntas comunes sobre el precio</span>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>

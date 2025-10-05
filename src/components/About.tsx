@@ -6,18 +6,18 @@ const TEAM_MEMBERS = [
     id: "jose",
     name: "José Véliz",
     image: "https://avatars.githubusercontent.com/u/101609455?v=4",
-    role: "Administrador de Servidores",
-    achievements: "Campeón Nacional de Informática 2023",
-    education: "Estudiante de Ing en Computación en la ESPAM",
+    role: "Infraestructura & Automatizaciones",
+    achievements: "Campeón Nacional de Informática 2023 · experiencia en bots y despliegues 24/7",
+    education: "Ing. en Computación (ESPAM) · DevOps & cloud ligero",
     contact: "jose@codicoffee.com",
   },
   {
     id: "adrian",
     name: "Adrián Zambrano",
     image: "https://avatars.githubusercontent.com/u/103219972?v=4",
-    role: "Experto en desarrollo web",
-    achievements: "Diseñador UI",
-    education: "Estudiante de Ing de Software en la ULEAM",
+    role: "Frontend & Experiencias de usuario",
+    achievements: "Diseñador UI · integra CRM simples y automatizaciones con WhatsApp",
+    education: "Ing. de Software (ULEAM) · Especialista en accesibilidad",
     contact: "adrian@codicoffee.com",
   },
 ];
@@ -70,9 +70,6 @@ export default function About() {
         <h2 className="text-3xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-white via-purpleCC-200 to-coffeeCC-200 bg-clip-text text-transparent drop-shadow-2xl animate-fade-in">
           Sobre Nosotros
         </h2>
-        <p className="text-grayModern-300 max-w-2xl mx-auto text-lg opacity-0 animate-slide-up" style={{ animationDelay: "0.2s" }}>
-          Conoce al equipo detrás de Codicoffee. Dos estudiantes apasionados por la tecnología y el diseño web.
-        </p>
       </div>
 
       {/* Team cards */}
@@ -95,8 +92,6 @@ export default function About() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
-                {/* Online indicator */}
-                <div className="absolute bottom-2 right-2 w-6 h-6 bg-green-400 border-4 border-white rounded-full animate-pulse" />
               </div>
             </div>
 

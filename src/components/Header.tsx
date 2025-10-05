@@ -5,8 +5,10 @@ const NAV_ITEMS = [
   { id: "presentation", label: "Inicio" },
   { id: "services", label: "Servicios" },
   { id: "precios", label: "Precios" },
+  { id: "process", label: "Proceso" },
   { id: "about", label: "Sobre Nosotros" },
   { id: "questions", label: "Preguntas Frecuentes" },
+  { id: "cta", label: "Contacto" },
 ];
 
 export default function Header() {
@@ -155,30 +157,33 @@ export default function Header() {
           aria-expanded={menuOpen}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              className={`transition-transform duration-300 ${menuOpen ? 'rotate-90' : ''}`}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
+            {menuOpen ? (
+              <g className="transition-transform duration-300 origin-center">
+                <line x1="6" y1="6" x2="18" y2="18" strokeWidth={2} strokeLinecap="round" />
+                <line x1="6" y1="18" x2="18" y2="6" strokeWidth={2} strokeLinecap="round" />
+              </g>
+            ) : (
+              <g className="transition-transform duration-300 origin-center">
+                <line x1="4" y1="7" x2="20" y2="7" strokeWidth={2} strokeLinecap="round" />
+                <line x1="4" y1="12" x2="20" y2="12" strokeWidth={2} strokeLinecap="round" />
+                <line x1="4" y1="17" x2="20" y2="17" strokeWidth={2} strokeLinecap="round" />
+              </g>
+            )}
           </svg>
         </button>
 
         <ul
           ref={menuRef}
           className={`${
-            menuOpen
-              ? "flex"
-              : "hidden"
-          } lg:flex list-none fixed lg:static top-16 lg:top-0 left-0 w-full lg:w-auto h-screen lg:h-auto bg-white/5 lg:bg-transparent backdrop-blur-xl border-b lg:border-b-0 border-white/10 lg:border-none flex-col lg:flex-row gap-6 lg:gap-8 pt-8 lg:pt-0 px-6 lg:px-0 items-center lg:items-center transition-all duration-500 ease-in-out z-50 lg:z-auto`}
+            menuOpen ? "flex" : "hidden"
+          } lg:flex list-none fixed lg:static top-16 lg:top-0 left-0 w-full lg:w-auto h-[calc(100vh-64px)] lg:h-auto bg-black/85 lg:bg-transparent backdrop-blur-xl lg:backdrop-blur-0 border-b lg:border-b-0 border-white/10 lg:border-none flex-col lg:flex-row gap-4 lg:gap-8 pt-6 lg:pt-0 px-6 lg:px-0 items-stretch lg:items-center overflow-y-auto lg:overflow-visible transition-all duration-500 ease-in-out z-50 lg:z-auto`}
         >
           {NAV_ITEMS.map((n) => (
             <li key={n.id} className="w-full lg:w-auto">
               <a
                 href={`#${n.id}`}
                 data-section={n.id}
-                className={`nav-link block text-white/90 lg:text-grayModern-200 no-underline py-3 px-4 rounded-modern transition-all duration-200 ease-out font-semibold hover:text-white hover:bg-white/5 lg:hover:bg-transparent lg:hover:translate-y-[-2px] relative overflow-hidden group ${
+                className={`nav-link block text-white/90 lg:text-grayModern-200 no-underline py-4 lg:py-3 px-4 rounded-modern transition-all duration-200 ease-out font-semibold focus-visible:bg-white/10 lg:hover:text-white lg:hover:bg-white/5 lg:hover:translate-y-[-2px] relative overflow-hidden group ${
                   activeId === n.id
                     ? "nav-link-active text-white underline underline-offset-4 decoration-2 bg-gradient-to-r from-purpleCC-500/20 to-coffeeCC-500/20 backdrop-blur-sm bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 bg-clip-text text-transparent shadow-[0_0_10px_rgba(131,10,187,0.3)] border-l-4 border-purpleCC-500/50 ml-[-4px] pl-4"
                     : ""
@@ -189,14 +194,17 @@ export default function Header() {
                 }}
               >
                 <span className="relative z-10">{n.label}</span>
-                <span className={`absolute inset-0 bg-gradient-to-r from-purpleCC-500/10 to-coffeeCC-500/10 rounded-modern scale-0 group-hover:scale-100 ${activeId === n.id ? 'scale-100' : ''} transition-transform duration-300 origin-center`}></span>
+                <span className={`absolute inset-0 bg-gradient-to-r from-purpleCC-500/10 to-coffeeCC-500/10 rounded-modern scale-0 lg:group-hover:scale-100 ${activeId === n.id ? 'scale-100' : ''} transition-transform duration-300 origin-center`}></span>
               </a>
             </li>
           ))}
         </ul>
       </nav>
       {menuOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm lg:hidden z-40" onClick={() => setMenuOpen(false)} />
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm lg:hidden z-40"
+          onClick={() => setMenuOpen(false)}
+        />
       )}
     </header>
   );
