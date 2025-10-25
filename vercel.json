@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/chocolateria(.*)",
+      "destination": "https://jeque-chocolateria.vercel.app$1"
+    }
+  ]
+}
