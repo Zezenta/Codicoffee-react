@@ -3,22 +3,46 @@ import { useEffect } from "react";
 
 const SERVICES = [
   {
-    id: "desarrollo",
-    icon: "https://zezenta.shop/placeholders/SHARE/code.gif",
-    title: "Desarrollo Web",
-    description: "Diseñamos, desarrollamos, y activamos sitios web. Pueden ser a partir de un ejemplo, o pueden ser totalmente personalizados según el cliente necesite (sin precio extra).",
+    id: "web",
+    icon: "🖥️",
+    title: "Sitios web",
+    description:
+      "Landing o multipágina, responsive, SEO técnico básico, WhatsApp y Analytics. Desde $180 + mantenimiento opcional.",
   },
   {
-    id: "seo",
-    icon: "https://zezenta.shop/placeholders/SHARE/lupa.gif",
-    title: "SEO",
-    description: "Nos aseguramos de que tu sitio web se muestre entre los primeros resultados de las búsquedas de Google; así, tu negocio llegará a más gente que busque cosas como \"Restaurantes en Manta\" o \"Abogados en Portoviejo\".",
+    id: "catalog",
+    icon: "🗂️",
+    title: "Catálogo y distribuidores",
+    description:
+      "Grid de productos, fichas y formulario que envía leads directo a WhatsApp o correo. Desde $240.",
   },
   {
-    id: "mantenimiento",
-    icon: "https://zezenta.shop/placeholders/SHARE/pc.gif",
-    title: "Mantenimiento de Servidores",
-    description: "Estamos atentos de que tu sitio web esté activo 24/7. También tenemos en cuenta de que tu sitio web cargue rápido, y sin demoras.",
+    id: "systems",
+    icon: "📦",
+    title: "Sistemas internos a medida",
+    description:
+      "Inventario, pedidos, CRM simple o paneles en la nube. Nos ajustamos a tu flujo actual e integramos con Google Sheets si lo necesitas.",
+  },
+  {
+    id: "automation",
+    icon: "🤖",
+    title: "Automatizaciones e IA",
+    description:
+      "Bots de WhatsApp, respuestas automáticas, extracción de datos y reportes. Incluimos setup y capacitación para tu equipo.",
+  },
+  {
+    id: "domain",
+    icon: "✉️",
+    title: "Dominio y correo corporativo",
+    description:
+      "Te asesoramos en la compra del dominio y configuramos correos tipo ventas@tuempresa.com (Zoho, ImprovMX, DNS).",
+  },
+  {
+    id: "consulting",
+    icon: "🧠",
+    title: "Consultoría técnica",
+    description:
+      "Sesiones cortas para resolver dudas, elegir stack, auditar tu web o acompañarte durante una implementación.",
   },
 ];
 
@@ -75,13 +99,8 @@ export default function Services() {
             
             {/* Icon */}
             <div className="relative mb-6 flex justify-center">
-              <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-purpleCC-500 to-coffeeCC-500 p-4 shadow-glow-purple group-hover:scale-110 transition-transform duration-300">
-                <img
-                  src={service.icon}
-                  alt={service.title}
-                  className="w-full h-full object-contain filter brightness-0 invert group-hover:brightness-100 transition-all duration-300"
-                  loading="lazy"
-                />
+              <div className="relative flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-purpleCC-500 to-coffeeCC-500 shadow-glow-purple group-hover:scale-110 transition-transform duration-300 text-4xl">
+                <span aria-hidden>{service.icon}</span>
               </div>
             </div>
 

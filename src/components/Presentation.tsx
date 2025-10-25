@@ -1,7 +1,30 @@
 // src/components/Presentation.tsx
 import { useEffect, useRef, useState } from "react";
 
-const WORDS = ["Clínica", "Profesión", "Hotel", "Taller"];
+const WORDS = [
+  "sitios web",
+  "sistemas internos",
+  "automatizaciones",
+  "inventarios ágiles",
+];
+
+const HIGHLIGHTS = [
+  {
+    id: "delivery",
+    label: "Entregas en 7-10 días",
+    icon: "⚡",
+  },
+  {
+    id: "integrations",
+    label: "Integraciones con WhatsApp y Sheets",
+    icon: "🔗",
+  },
+  {
+    id: "transparency",
+    label: "50% anticipo, 50% al entregar",
+    icon: "🤝",
+  },
+];
 
 export default function Presentation() {
   const [wordIndex, setWordIndex] = useState(0);
@@ -25,7 +48,7 @@ export default function Presentation() {
       setTimeout(() => {
         const next = (wordIndex + 1) % WORDS.length;
         setWordIndex(next);
-        el.textContent = next === 0 ? "Negocio" : WORDS[next];
+        el.textContent = WORDS[next];
         el.style.transition = "none";
         el.style.transform = "translateY(10px) scale(1.05)";
         el.style.opacity = "1";
@@ -148,15 +171,14 @@ export default function Presentation() {
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between w-full max-w-7xl mx-auto space-y-6 lg:space-y-0 lg:space-x-12 px-4 lg:px-8">
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-4xl space-y-6 lg:space-y-8 w-full lg:w-auto">
           <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent drop-shadow-2xl overflow-hidden">
-            <>Hacemos un sitio<br />web para tu<br />{" "}
+            <>Ahorramos tiempo con<br />software simple para {" "}
               <span className="relative inline-block">
                 <span
                   id="dynamic-word"
                   ref={wordRef}
                   className="inline-block transition-all duration-700 ease-out opacity-100 relative whitespace-nowrap font-extrabold bg-gradient-to-r from-white to-grayModern-200 bg-clip-text text-transparent"
-                  style={{}}
                 >
-                  {wordIndex === 0 ? "Negocio" : WORDS[wordIndex]}
+                  {WORDS[wordIndex]}
                 </span>
                 <span
                   className={`absolute bottom-0 left-0 right-0 h-1 bg-purpleCC-500 transform origin-left transition-transform duration-700 ease-out ${showUnderline ? 'scale-x-100' : 'scale-x-0'}`}
@@ -165,9 +187,44 @@ export default function Presentation() {
             </>
           </h2>
           <p className="text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed opacity-90 font-light backdrop-blur-sm bg-white/5 rounded-modern px-6 py-4 border border-white/10">
-            Somos un par de estudiantes de informática que se dedican a hacer
-            sitios webs para pequeños y medianos negocios, a los mejores precios
+            Construimos sitios web que convierten, sistemas internos ligeros y automatizaciones
+            conectadas a WhatsApp o Google Sheets. Entregamos rápido, con resultados medibles y precios transparentes.
           </p>
+
+          <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full text-left">
+            {HIGHLIGHTS.map((item) => (
+              <li
+                key={item.id}
+                className="flex items-center gap-3 bg-white/10 border border-white/10 rounded-modern px-4 py-3 backdrop-blur-sm"
+              >
+                <span className="text-2xl" aria-hidden>{item.icon}</span>
+                <span className="text-sm lg:text-base text-grayModern-100">{item.label}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full">
+            <a
+              href="https://wa.me/593999405155?text=Hola%20Codicoffee,%20quisiera%20agendar%20una%20llamada%20de%2010%20minutos."
+              className="inline-flex items-center justify-center px-6 py-4 rounded-full bg-gradient-to-r from-purpleCC-500 to-coffeeCC-500 text-white font-semibold text-lg shadow-glow-purple hover:shadow-card-hover transition-transform duration-300 hover:-translate-y-1 hover:scale-105"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Hablemos 10 minutos
+            </a>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center px-6 py-4 rounded-full border border-white/30 text-white/90 font-semibold text-lg backdrop-blur-sm hover:bg-white/10 transition-transform duration-300 hover:-translate-y-1"
+              onClick={() => {
+                const prices = document.getElementById("precios");
+                if (!prices) return;
+                const offset = 80;
+                window.scrollTo({ top: prices.offsetTop - offset, behavior: "smooth" });
+              }}
+            >
+              Ver paquetes y add-ons
+            </button>
+          </div>
         </div>
       </div>
     </section>

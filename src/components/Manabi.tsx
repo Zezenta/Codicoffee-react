@@ -41,7 +41,7 @@ export default function Manabi() {
         </div>
 
         <p className="text-grayModern-300 text-sm lg:text-base max-w-2xl mx-auto opacity-0 animate-slide-up" style={{ animationDelay: "0.3s" }}>
-          Con orgullo desarrollamos desde la costa ecuatoriana, llevando innovación y calidad a cada proyecto.
+          Desarrollamos desde la costa ecuatoriana con soporte local, visitas presenciales cuando es necesario y respuestas ágiles por WhatsApp.
         </p>
       </div>
 
