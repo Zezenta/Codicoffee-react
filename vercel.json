@@ -1,9 +1,8 @@
 {
-  "redirects": [
+  "rewrites": [
     {
-      "source": "/chocolateria",
-      "destination": "https://jeque-chocolates.vercel.app",
-      "permanent": false
+      "source": "/chocolateria/(.*)",
+      "destination": "https://jeque-chocolates.vercel.app/$1"
     }
   ]
 }
