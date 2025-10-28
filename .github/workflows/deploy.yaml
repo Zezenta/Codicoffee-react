@@ -18,8 +18,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script_stop: true
           script: |
+            set -e
             cd /var/www/codicoffee.com
-            git pull origin master
+            git fetch origin master
+            git reset --hard origin/master
             npm ci
             npm run build
             echo "✅ Deployment complete on $(date)"
