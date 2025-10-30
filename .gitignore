@@ -25,3 +25,4 @@ dist-ssr
 
 #subprojects
 chocolateria
+vite.config.ts
