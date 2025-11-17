@@ -134,7 +134,7 @@ export default function Presentation() {
           data-speed="0.3"
           className="absolute inset-0"
           style={{
-            backgroundImage: "url(https://zezenta.shop/placeholders/SHARE/coding2.jpg)",
+            backgroundImage: "url(/coding2.jpg)",
             backgroundSize: "cover",
             backgroundPosition: "center",
             willChange: 'transform',

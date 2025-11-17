@@ -135,7 +135,7 @@ export default function Header() {
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex items-center space-x-3">
           <img
-            src="https://zezenta.shop/placeholders/SHARE/logo-codicoffee-transparente.webp"
+            src="/logo-codicoffee-transparente.webp"
             alt="logo"
             className="w-12 h-12 rounded-full object-cover object-center transition-transform duration-300 hover:scale-110"
             loading="lazy"
