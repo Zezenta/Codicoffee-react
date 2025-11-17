@@ -1,5 +1,6 @@
 // src/components/Presentation.tsx
 import { useEffect, useRef, useState } from "react";
+import codingImage from "../assets/coding2.jpg";
 
 const WORDS = [
   "sitios web",
@@ -134,7 +135,7 @@ export default function Presentation() {
           data-speed="0.3"
           className="absolute inset-0"
           style={{
-            backgroundImage: "url(/coding2.jpg)",
+            backgroundImage: `url(${codingImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             willChange: 'transform',

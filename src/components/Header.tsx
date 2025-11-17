@@ -1,5 +1,6 @@
 // src/components/Header.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
+import logoImage from "../assets/logo-codicoffee-transparente.webp";
 
 const NAV_ITEMS = [
   { id: "presentation", label: "Inicio" },
@@ -135,7 +136,7 @@ export default function Header() {
       <nav className="flex justify-between items-center max-w-7xl mx-auto">
         <div className="flex items-center space-x-3">
           <img
-            src="/logo-codicoffee-transparente.webp"
+            src={logoImage}
             alt="logo"
             className="w-12 h-12 rounded-full object-cover object-center transition-transform duration-300 hover:scale-110"
             loading="lazy"
