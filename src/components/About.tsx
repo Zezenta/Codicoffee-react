@@ -8,7 +8,7 @@ const TEAM_MEMBERS = [
     image: "https://avatars.githubusercontent.com/u/101609455?v=4",
     role: "Infraestructura & Automatizaciones",
     achievements: "Campeón Nacional de Informática 2023 · experiencia en bots y despliegues 24/7",
-    education: "Ing. en Computación (ESPAM) · DevOps & cloud ligero",
+    education: "Estudiante en Ing. en Computación (ESPAM) · DevOps & cloud ligero",
     contact: "jose@codicoffee.com",
   },
   {
@@ -17,7 +17,7 @@ const TEAM_MEMBERS = [
     image: "https://avatars.githubusercontent.com/u/103219972?v=4",
     role: "Frontend & Experiencias de usuario",
     achievements: "Diseñador UI · integra CRM simples y automatizaciones con WhatsApp",
-    education: "Ing. de Software (ULEAM) · Especialista en accesibilidad",
+    education: "Estudiante en Ing. de Software (ULEAM) · Especialista en accesibilidad",
     contact: "adrian@codicoffee.com",
   },
 ];
